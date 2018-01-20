@@ -165,15 +165,15 @@ final class House
         private Repository()
         {
             super(runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_USERNAME_ENV_VAR),
+                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_USERNAME_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PASSWORD_ENV_VAR),
+                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_PASSWORD_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR),
+                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR));
+                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR));
             
             LOG.trace("entry");
             

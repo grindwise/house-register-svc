@@ -10,7 +10,7 @@ import com.gws.house.registration.House;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
 import com.gws.house.registration.AddressInformation;
 import com.gws.house.registration.HouseInformation;
-import com.gws.house.registration.RegisterHouseServiceRuntimeProperties;
+import com.gws.house.registration.RegisterHouseRuntimeProperties;
 import com.gws.house.registration.RuntimeEnvironmentProperties;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.Hidden;
@@ -56,7 +56,7 @@ public class RegisterHouseGiven extends Stage<RegisterHouseGiven>
         final AddressAuthenticator addressAuthenticator = Mockito.mock(AddressAuthenticator.class, answer);
         
         final RuntimeEnvironmentProperties properties =
-            new RegisterHouseServiceRuntimeProperties();
+            new RegisterHouseRuntimeProperties();
         
         final HouseFactory propertyFactory = new HouseFactory(addressAuthenticator, properties);
         this.house = propertyFactory.create(houseInformation);

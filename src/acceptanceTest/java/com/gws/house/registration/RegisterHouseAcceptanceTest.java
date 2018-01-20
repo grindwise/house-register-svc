@@ -54,39 +54,39 @@ public final class RegisterHouseAcceptanceTest extends ScenarioTest<
     {
         Map<String,String> processRuntimeEnvironmentVariables = new HashMap<>();
         processRuntimeEnvironmentVariables.put(
-            RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_USERNAME_ENV_VAR, PERSISTENT_STORE_USERNAME);
+            RegisterHouseRuntimeProperties.PERSISTENT_STORE_USERNAME_ENV_VAR, PERSISTENT_STORE_USERNAME);
         processRuntimeEnvironmentVariables.put(
-            RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PASSWORD_ENV_VAR, PERSISTENT_STORE_PASSWORD);
+            RegisterHouseRuntimeProperties.PERSISTENT_STORE_PASSWORD_ENV_VAR, PERSISTENT_STORE_PASSWORD);
         processRuntimeEnvironmentVariables.put(
-            RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR, PERSISTENT_STORE_HOST);
+            RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR, PERSISTENT_STORE_HOST);
         processRuntimeEnvironmentVariables.put(
-            RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR, PERSISTENT_STORE_PORT);
+            RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR, PERSISTENT_STORE_PORT);
         processRuntimeEnvironmentVariables.put(
-            RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR, PERSISTENT_STORE_NAME +
+            RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR, PERSISTENT_STORE_NAME +
                 PERSISTENCE_ACCEPTANCE_TEST_EXTENTION);
         processRuntimeEnvironmentVariables.put(
-            RegisterHouseServiceRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR, PERSISTENT_COLLECTION_NAME);
+            RegisterHouseRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR, PERSISTENT_COLLECTION_NAME);
         
         try
         {
             this.establishRuntimeEnvironmentVariables(processRuntimeEnvironmentVariables);
         
             final RuntimeEnvironmentProperties purchaseHouseEnvironmentProperties =
-                new RegisterHouseServiceRuntimeProperties();
+                new RegisterHouseRuntimeProperties();
 
             final MongoClient mongoClient = new MongoClient(
                 purchaseHouseEnvironmentProperties.getPropertyValue(
-                    RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+                    RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
                 Integer.parseInt(purchaseHouseEnvironmentProperties.getPropertyValue(
-                    RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
+                    RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
         
             final MongoDatabase housesDatabase = mongoClient.getDatabase(
                 purchaseHouseEnvironmentProperties.getPropertyValue(
-                    RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR));
+                    RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR));
             
             final MongoCollection<Document> housesCollection = housesDatabase.getCollection(
                 purchaseHouseEnvironmentProperties.getPropertyValue(
-                    RegisterHouseServiceRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
+                    RegisterHouseRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
 
             housesCollection.drop();
             housesDatabase.drop();
