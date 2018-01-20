@@ -38,10 +38,22 @@ pipeline {
         stage('Commit') {
 
             steps {
+               slackSend "started ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+
                echo "build clean shadowJar"
                sh 'gradle clean shadowJar'
+               sh 'gradle test'
                //sh 'gradle findbugsMain'
                //sh 'gradle checkstyleMain'
+            }
+        }
+
+        stage('Acceptance'){
+            steps {
+               echo "build aat jar"
+               sh 'gradle acceptanceTestJar'
+               echo "executing acceptance tests"
+               sh 'gradle acceptanceTest'
             }
         }
 
@@ -53,7 +65,7 @@ pipeline {
     }
     post {
         always {
-            echo "post always"
+            slackSend "ended ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
         }
         success {
             echo "no downstream build required"
