@@ -9,7 +9,7 @@ def establishImage() {
 
     script {
 
-        def img = docker.build("grindwiseinc/property.house.register")
+        def img = docker.build("grindwiseinc/propertymgmt.house.register")
         echo "image created"
 
         img.inside {
