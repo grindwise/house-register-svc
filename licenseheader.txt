@@ -1,0 +1,7 @@
+/*
+ * Property of Grind Wise Inc.
+ * 
+ * Copyright (C) 2016 Grind Wise Inc. - Software Engineering Services
+ */
+
+

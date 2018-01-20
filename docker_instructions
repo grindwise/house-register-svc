@@ -1,0 +1,14 @@
+docker build --force-rm --tag=grindwiseinc/propertymgmt.house.register:1.0 .
+
+docker push grindwiseinc/propertymgmt.house.register
+
+docker pull grindwiseinc/propertymgmt.house.register
+
+docker run -P --name propertymgmt.house.register \
+-v /propertymgmt_property_house_register:/data/db \
+-e property_store_name=house_properties -e property_store_username="" \
+-e property_store_password="" -e property_store_host=localhost \
+-e property_store_port=27017 -e version=1.0.0 \
+propertymgmt/property.house.register:1.0 \
+"/opt/propertymgmt/register-house-service/bin/register-house-service.sh" \ 
+"some auth id" "some auth token"

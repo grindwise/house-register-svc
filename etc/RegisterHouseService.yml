@@ -1,0 +1,35 @@
+addressAuthenticatorID:
+addressAuthenticatorToken:
+
+server:
+  applicationContextPath: /propertymgmt/assetmgmt
+  rootPath: /
+
+  applicationConnectors:
+    - type: http
+      port: 7085
+  adminConnectors:
+    - type: http
+      port: 7086
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO 
+
+  # Logger-specific levels.
+  loggers:
+    "PojoCodec": DEBUG
+    "com.gws": DEBUG
+
+    # Redirects SQL logs to a separate file
+#    org.hibernate.SQL:
+#      level: DEBUG
+
+  appenders:
+    - type: console
+      threshold: DEBUG 
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      timeZone: UTC
+      target: stdout

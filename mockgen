@@ -1,0 +1,3 @@
+#!/bin/bash
+
+java -Dautospec.root.working.directory=/tmp/autospec -cp /home/jim/development/autospec/target/autospec-1.0.0-SNAPSHOT-jar-with-dependencies.jar com.grindwise.autospec.MockFeatureGenerator

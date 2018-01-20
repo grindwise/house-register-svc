@@ -1,0 +1,139 @@
+/*
+ * gradle build for house registration service.
+ *
+ */
+buildscript {
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven'
+apply plugin: 'findbugs'
+apply plugin: 'checkstyle'
+apply plugin: 'groovy'
+
+repositories {
+    maven {
+        url "http://brepo.grindwise.com:8085/artifactory/grindwise"
+    }
+
+    jcenter()
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile "com.gws.addressauthenticator:gws.addressauthenticator:${aaVersion}"
+    compile "org.slf4j:slf4j-api:${slf4Version}"
+    compile "io.dropwizard:dropwizard-core:${dropWizardVersion}"
+    compile "io.dropwizard:dropwizard-views-mustache:${dropWizardVersion}"
+    compile "io.dropwizard:dropwizard-assets:${dropWizardVersion}"
+    compile "com.google.inject:guice:${guiceVersion}"
+    compile "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
+    compile "org.mockito:mockito-all:${mockitoVersion}"
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    compile "org.jongo:jongo:${jongoVersion}"
+    compile "org.mongodb:mongodb-driver:${mongoDriverVersion}"
+    checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
+    testCompile "junit:junit:${junitVersion}"
+    testCompile "com.tngtech.jgiven:jgiven-junit:${jgivenVersion}"
+}
+
+sourceSets {
+    acceptanceTest {
+        java.srcDir file('src/acceptanceTest/java')
+	compileClasspath += main.output
+	runtimeClasspath += main.output
+    }
+}
+
+configurations {
+    acceptanceTestCompile.extendsFrom testCompile
+    acceptanceTestRuntime.extendsFrom testRuntime
+}
+
+task acceptanceTests(type: Test) {
+    testClassesDir = sourceSets.acceptanceTest.output.classesDir
+    classpath = sourceSets.acceptanceTest.runtimeClasspath
+}
+
+task acceptanceTestsJar(dependsOn: compileAcceptanceTestJava, type: Jar) {
+    baseName = "${project.name}-at"
+    from sourceSets.acceptanceTest.output.classesDir
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
+mainClassName = 'com.gws.house.registration.RegisterHouseService'
+
+shadowJar {
+
+    project.tasks.assemble.dependsOn project.tasks.shadowJar
+    mergeServiceFiles()
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    classifier=null
+
+    baseName = "${project.name}-${prjVersion}"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+
+    baseName = "${project.name}-${prjVersion}"
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+checkstyle {
+   configFile = new File(".", "gw-checkstyle.xml")
+   //checkstyleMain.exclude 'com/grindwise/asset/management/dts/**'
+}
+
+
+tasks.withType(Test) {
+    testLogging {
+        // set options for log level LIFECYCLE
+        events "passed", "skipped", "failed", "standardOut"
+        showExceptions true
+        exceptionFormat "full"
+        showCauses true
+        showStackTraces true
+
+        // set options for log level DEBUG and INFO
+        debug {
+            events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+            exceptionFormat "full"
+        }
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+            }
+        }
+    }    
+}

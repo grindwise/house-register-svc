@@ -1,0 +1,181 @@
+{
+  "className": "com.gws.house.registration.domain.RegisterHouseAcceptanceTest",
+  "name": "Register House Acceptance",
+  "scenarios": [
+    {
+      "className": "com.gws.house.registration.domain.RegisterHouseAcceptanceTest",
+      "testMethodName": "scenario1RegisterHouseWithValidAddress",
+      "description": "Scenario1 register house with valid address",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "casesAsTable": false,
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a new house needs to be manage",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a new house needs to be manage"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 115624526
+            },
+            {
+              "name": "the address has been authenticated",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the address has been authenticated"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 9222463
+            },
+            {
+              "name": "the house information has been saved",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the house information has been saved"
+                }
+              ],
+              "status": "FAILED",
+              "durationInNanos": 15472892
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "FAILED",
+          "success": false,
+          "errorMessage": "java.lang.AssertionError: matching record not found because there are 0 records found",
+          "stackTrace": [
+            "org.junit.Assert.fail(Assert.java:88)",
+            "org.junit.Assert.assertTrue(Assert.java:41)",
+            "org.junit.Assert.assertFalse(Assert.java:64)",
+            "com.gws.house.registration.domain.RegisterHouseThen.theHouseInformationHasBeenSaved(RegisterHouseThen.java:48)",
+            "com.gws.house.registration.domain.RegisterHouseThen$ByteBuddy$RrIBujOO.theHouseInformationHasBeenSaved$accessor$m17RTlEc(Unknown Source)",
+            "com.gws.house.registration.domain.RegisterHouseThen$ByteBuddy$RrIBujOO$auxiliary$1T6bmAO8.call(Unknown Source)",
+            "com.gws.house.registration.domain.RegisterHouseThen$ByteBuddy$RrIBujOO.theHouseInformationHasBeenSaved(Unknown Source)",
+            "com.gws.house.registration.domain.RegisterHouseAcceptanceTest.scenario1RegisterHouseWithValidAddress(RegisterHouseAcceptanceTest.java:111)",
+            "org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)",
+            "org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)",
+            "org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)",
+            "org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)",
+            "org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)",
+            "com.tngtech.jgiven.junit.JGivenMethodRule$1.evaluate(JGivenMethodRule.java:73)",
+            "org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)",
+            "org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)",
+            "org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)",
+            "org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)",
+            "org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)",
+            "org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)",
+            "org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)",
+            "org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)",
+            "org.junit.rules.TestWatcher$1.evaluate(TestWatcher.java:55)",
+            "org.junit.rules.RunRules.evaluate(RunRules.java:20)",
+            "org.junit.runners.ParentRunner.run(ParentRunner.java:363)",
+            "org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:112)",
+            "org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:56)",
+            "org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)",
+            "org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)",
+            "org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)",
+            "org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)",
+            "org.gradle.messaging.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)",
+            "org.gradle.messaging.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)",
+            "org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)",
+            "org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)",
+            "org.gradle.messaging.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)",
+            "org.gradle.messaging.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:364)",
+            "org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)",
+            "org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)",
+            "java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)",
+            "java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)",
+            "java.lang.Thread.run(Thread.java:748)"
+          ],
+          "durationInNanos": 464212189
+        }
+      ],
+      "durationInNanos": 464212189
+    },
+    {
+      "className": "com.gws.house.registration.domain.RegisterHouseAcceptanceTest",
+      "testMethodName": "scenario2RegisterHouseWithInvalidAddress",
+      "description": "Scenario2 register house with invalid address",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "casesAsTable": false,
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a new house needs to be manage",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a new house needs to be manage"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1347955
+            },
+            {
+              "name": "the address failed authentication",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the address failed authentication"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1120014
+            },
+            {
+              "name": "the house information has not been saved",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the house information has not been saved"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 14240278
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "success": true,
+          "durationInNanos": 44224616
+        }
+      ],
+      "durationInNanos": 44224616,
+      "executionStatus": "SUCCESS"
+    }
+  ],
+  "tagMap": {}
+}
