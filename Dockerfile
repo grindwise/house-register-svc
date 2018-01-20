@@ -15,7 +15,7 @@ RUN mkdir -p /data/db
 
 COPY etc/environment /opt/propertymgmt/register-house-service/etc/
 COPY etc/RegisterHouseService.yml /opt/propertymgmt/register-house-service/etc/
-COPY build/libs/gws.propertyhoncho.property.house.register.rapi-*.jar /opt/propertymgmt/register-house-service/lib/
+COPY build/libs/propertymgmt.house.registration-*.jar /opt/propertymgmt/register-house-service/lib/
 COPY scripts/register-house-service.sh /opt/propertymgmt/register-house-service/bin/
 COPY scripts/service-start.sh /service-start.sh
 
