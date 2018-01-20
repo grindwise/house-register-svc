@@ -89,8 +89,7 @@ final class House
         try
         {
             // make sure the property is real (authentic)
-//            if (this.address.authentic())
-            if (true)
+            if (this.address.authentic())
             {
                 LOG.debug("house address is valid");
 
