@@ -5,7 +5,7 @@
  */
 package com.gws.house.registration;
 
-import com.gws.house.registration.RegisterHouseServiceRuntimeEnvironmentProperties;
+import com.gws.house.registration.RegisterHouseServiceRuntimeProperties;
 import com.gws.house.registration.RuntimeEnvironmentProperties;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -23,21 +23,17 @@ public class RegisterHouseThen extends Stage<RegisterHouseThen>
     public RegisterHouseThen theHouseInformationHasBeenSaved()
     {
         final RuntimeEnvironmentProperties purchaseHouseEnvironmentProperties =
-            new RegisterHouseServiceRuntimeEnvironmentProperties();
+            new RegisterHouseServiceRuntimeProperties();
 
         MongoClient mongoClient = new MongoClient(
-            purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_HOST_ENV_VAR),
-            Integer.parseInt(purchaseHouseEnvironmentProperties.getPropertyValue(
-                RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
+            purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+            Integer.parseInt(purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
         
-        MongoDatabase housesDatabase = mongoClient.getDatabase(
-            purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_NAME_ENV_VAR));
+        MongoDatabase housesDatabase = mongoClient.getDatabase(purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR));
         
-        MongoCollection<Document> housesCollection = housesDatabase.getCollection(
-            purchaseHouseEnvironmentProperties.getPropertyValue(
-                RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
+        MongoCollection<Document> housesCollection = housesDatabase.getCollection(purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
 
-        System.out.println("collection: " + purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
+        System.out.println("collection: " + purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
         
         if (housesCollection.count() == 1)
         {
@@ -54,18 +50,14 @@ public class RegisterHouseThen extends Stage<RegisterHouseThen>
     public RegisterHouseThen theHouseInformationHasNotBeenSaved()
     {
         final RuntimeEnvironmentProperties purchaseHouseEnvironmentProperties =
-            new RegisterHouseServiceRuntimeEnvironmentProperties();
+            new RegisterHouseServiceRuntimeProperties();
 
         MongoClient mongoClient = new MongoClient(
-            purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_HOST_ENV_VAR),
-            Integer.parseInt(purchaseHouseEnvironmentProperties.getPropertyValue(
-                RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
+            purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+            Integer.parseInt(purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
         
-        MongoDatabase housesDatabase = mongoClient.getDatabase(
-            purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_NAME_ENV_VAR));
-        MongoCollection<Document> housesCollection = housesDatabase.getCollection(
-            purchaseHouseEnvironmentProperties.getPropertyValue(
-                RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
+        MongoDatabase housesDatabase = mongoClient.getDatabase(purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR));
+        MongoCollection<Document> housesCollection = housesDatabase.getCollection(purchaseHouseEnvironmentProperties.getPropertyValue(RegisterHouseServiceRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
         
         if (housesCollection.count() == 0)
         {

@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Jim Fiolek jim.fiolek@grindwise.com
  */
-public final class RegisterHouseServiceRuntimeEnvironmentProperties implements RuntimeEnvironmentProperties
+public final class RegisterHouseServiceRuntimeProperties implements RuntimeEnvironmentProperties
 {
-    private static final Logger LOG = LoggerFactory.getLogger(RegisterHouseServiceRuntimeEnvironmentProperties.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegisterHouseServiceRuntimeProperties.class);
     
     public static final String PERSISTENT_STORE_NAME_ENV_VAR = "persistent_store_name";
     public static final String PERSISTENT_STORE_USERNAME_ENV_VAR = "persistent_store_username";
@@ -49,7 +49,7 @@ public final class RegisterHouseServiceRuntimeEnvironmentProperties implements R
     /**
      * Constructor.
      */
-    public RegisterHouseServiceRuntimeEnvironmentProperties()
+    public RegisterHouseServiceRuntimeProperties()
     {
         LOG.trace("entry");
         

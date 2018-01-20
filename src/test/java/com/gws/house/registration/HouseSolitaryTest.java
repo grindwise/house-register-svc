@@ -5,9 +5,6 @@
  */
 package com.gws.house.registration;
 
-import com.gws.house.registration.ResidentialAddress;
-import com.gws.house.registration.House;
-import com.gws.house.registration.RuntimeEnvironmentProperties;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -21,7 +18,7 @@ import org.mockito.Mockito;
 public class HouseSolitaryTest
 {
     private final ResidentialAddress address = Mockito.mock(ResidentialAddress.class);
-    private final RuntimeEnvironmentProperties properties = Mockito.mock(RuntimeEnvironmentProperties.class);
+    private final RuntimeEnvironmentProperties properties = new RegisterHouseRuntimePropertiesFake();
     
     @BeforeClass
     public static void setUpClass() {

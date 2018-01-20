@@ -55,7 +55,7 @@ final class House
         this.address = address;
         this.runtimeEnvironmentProperties = runtimeEnvironmentProperties;
         this.houseRepository = new Repository();
-        
+
         LOG.trace("exit");
     }
 
@@ -85,7 +85,7 @@ final class House
         LOG.trace("entry");
         
         final DomainInvocationOutcome registerDomainInvocationOutcome;
-  
+
         try
         {
             // make sure the property is real (authentic)
@@ -166,15 +166,15 @@ final class House
         private Repository()
         {
             super(runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_USERNAME_ENV_VAR),
+                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_USERNAME_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_PASSWORD_ENV_VAR),
+                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PASSWORD_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_NAME_ENV_VAR),
+                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
                   runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseServiceRuntimeEnvironmentProperties.PERSISTENT_STORE_PORT_ENV_VAR));
+                  RegisterHouseServiceRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR));
             
             LOG.trace("entry");
             
