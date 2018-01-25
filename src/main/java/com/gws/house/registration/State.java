@@ -25,11 +25,6 @@ class State
     private final StateAbbreviationCode stateAbbreviationCode;
     private final StateName stateName;
     
-    protected static State create(final StateAbbreviationCode stateAbbreviationCode, final StateName stateName)
-    {
-        return new State(stateAbbreviationCode, stateName);
-    }
-    
     /**
      * Constructor.
      * 
@@ -54,6 +49,23 @@ class State
         LOG.trace("exit");
         
         return this.stateAbbreviationCode.provideAddressValue();
+    }
+    
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation stateAbbreviationCodeObjectStateRepresentation =
+            this.stateAbbreviationCode.establishState();
+
+        final JsonObjectStateRepresentation stateNameObjectStateRepresentation =
+            this.stateName.establishState();
+        
+        final JsonObjectStateRepresentation stateObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        stateObjectStateRepresentation.addState(
+            stateAbbreviationCodeObjectStateRepresentation, stateNameObjectStateRepresentation);
+        
+        return stateNameObjectStateRepresentation;
     }
     
     /**

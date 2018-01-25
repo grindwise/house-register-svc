@@ -5,6 +5,8 @@
  */
 package com.gws.house.registration;
 
+import com.gws.behavior.framework.AggregateRootObjectID;
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -17,6 +19,7 @@ import org.mockito.Mockito;
  */
 public class HouseSolitaryTest
 {
+    private final AggregateRootObjectID aggregateRootObjectID = Mockito.mock(AggregateRootObjectID.class);
     private final ResidentialAddress address = Mockito.mock(ResidentialAddress.class);
     private final RuntimeEnvironmentProperties properties = new RegisterHouseRuntimePropertiesFake();
     
@@ -31,15 +34,30 @@ public class HouseSolitaryTest
     @Test
     public void validConstructor()
     {
-        Assert.assertTrue(new House(this.address, this.properties) instanceof House);
+        Assert.assertTrue(new House(this.aggregateRootObjectID, this.address, this.properties) instanceof House);
     }
 
+    @Test
+    public void invalidObjectNullObjectID()
+    {
+        try
+        {
+            new House(null, this.address, this.properties);
+            
+            Assert.assertFalse(true);
+        }
+        catch (final NullPointerException exception)
+        {
+            Assert.assertTrue(true);
+        }
+    }
+    
     @Test
     public void invalidObjectNullAddress()
     {
         try
         {
-            new House(null, this.properties);
+            new House(this.aggregateRootObjectID, null, this.properties);
             
             Assert.assertFalse(true);
         }
@@ -54,7 +72,7 @@ public class HouseSolitaryTest
     {
         try
         {
-            new House(this.address, null);
+            new House(this.aggregateRootObjectID, this.address, null);
             Assert.assertFalse(true);
         }
         catch (final NullPointerException exception)

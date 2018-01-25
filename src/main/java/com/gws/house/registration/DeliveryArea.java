@@ -25,11 +25,6 @@ class DeliveryArea
     private static final int DELIVERY_AREA_LENGTH = 5;
     
     private final String deliveryArea;
-
-    protected static DeliveryArea create(final String deliveryArea)
-    {
-        return new DeliveryArea(deliveryArea);
-    }
     
     /**
      * Constructor.
@@ -66,6 +61,11 @@ class DeliveryArea
         LOG.trace("exit");
     }
 
+    /**
+     * Provide the delivery area of zip code.
+     * 
+     * @return delivery area of zip code. 
+     */
     protected String provideAddressValue()
     {
         LOG.trace("entry");
@@ -73,4 +73,14 @@ class DeliveryArea
         
         return this.deliveryArea;
     }
+    
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation deliveryAreaObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        deliveryAreaObjectStateRepresentation.addState("deliveryArea", this.deliveryArea, "String");
+        
+        return deliveryAreaObjectStateRepresentation;
+    }    
 }

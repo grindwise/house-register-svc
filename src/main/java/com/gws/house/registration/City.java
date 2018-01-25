@@ -25,15 +25,10 @@ class City
 
     private final String city;
     
-    protected static City create(final String city)
-    {
-        return new City(city);
-    }
-
     /**
      * Constructor.
      * 
-     * @param cityName name of city. 
+     * @param city name of city. 
      */
     protected City(final String city)
     {
@@ -46,6 +41,11 @@ class City
         LOG.trace("exit");
     }
     
+    /**
+     * Provides the city of the address.
+     * 
+     * @return city. 
+     */
     protected String provideAddressValue()
     {
         LOG.trace("entry");
@@ -54,11 +54,21 @@ class City
         return this.city;
     }
     
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation cityObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        cityObjectStateRepresentation.addState("city", this.city, "String");
+        
+        return cityObjectStateRepresentation;
+    }
+    
     /**
      * Validate constructor invariants necessary to successfully
- create an instance of CityImpl.
+     * create an instance of City.
      * 
-     * @param cityName name of city.
+     * @param city name of city.
      */
     private void validate(final String city)
     {

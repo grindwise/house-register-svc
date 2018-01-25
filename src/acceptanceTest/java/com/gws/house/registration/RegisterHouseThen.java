@@ -5,8 +5,7 @@
  */
 package com.gws.house.registration;
 
-import com.gws.house.registration.RegisterHouseRuntimeProperties;
-import com.gws.house.registration.RuntimeEnvironmentProperties;
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;

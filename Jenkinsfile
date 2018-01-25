@@ -43,8 +43,8 @@ pipeline {
                echo "build clean shadowJar"
                sh 'gradle clean shadowJar'
                sh 'gradle test'
-               //sh 'gradle findbugsMain'
-               //sh 'gradle checkstyleMain'
+               sh 'gradle findbugsMain'
+               sh 'gradle checkstyleMain'
             }
         }
 

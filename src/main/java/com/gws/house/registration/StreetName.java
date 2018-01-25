@@ -23,11 +23,6 @@ class StreetName
 
     private final String streetName;
     
-    protected static StreetName create(final String streetName)
-    {
-        return new StreetName(streetName);
-    }
-    
     /**
      * Constructor.
      * 
@@ -50,6 +45,17 @@ class StreetName
         LOG.trace("exit");
         
         return this.streetName;
+    }
+    
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation streetNameObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        streetNameObjectStateRepresentation.addState(
+            "streetName", this.streetName, "String");
+        
+        return streetNameObjectStateRepresentation;
     }
     
     /**

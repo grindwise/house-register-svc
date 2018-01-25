@@ -2,7 +2,7 @@ addressAuthenticatorID:
 addressAuthenticatorToken:
 
 server:
-  applicationContextPath: /propertymgmt/assetmgmt
+  applicationContextPath: /propertymgmt
   rootPath: /
 
   applicationConnectors:

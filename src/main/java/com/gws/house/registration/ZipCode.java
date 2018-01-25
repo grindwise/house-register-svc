@@ -25,11 +25,6 @@ class ZipCode
     private final DeliveryArea deliveryArea;
     private final GeographicSegment geographicSegment;
     
-    protected static ZipCode create(final DeliveryArea deliveryArea, final GeographicSegment geographicSegment)
-    {
-        return new ZipCode(deliveryArea, geographicSegment);
-    }
-    
     /**
      * Constructor.
      * 
@@ -62,6 +57,23 @@ class ZipCode
         return zipCode;
     }
     
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation deliveryAreaObjectStateRepresentation =
+            this.deliveryArea.establishState();
+
+        final JsonObjectStateRepresentation geographicSegmentObjectStateRepresentation =
+            this.geographicSegment.establishState();
+        
+        final JsonObjectStateRepresentation zipCodeObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        zipCodeObjectStateRepresentation.addState(
+            deliveryAreaObjectStateRepresentation, geographicSegmentObjectStateRepresentation);
+        
+        return zipCodeObjectStateRepresentation;
+    }
+
     /**
      * Validate zip code invariants.
      * 

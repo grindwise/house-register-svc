@@ -7,6 +7,7 @@
 package com.gws.house.registration;
 
 import com.google.common.base.Preconditions;
+import com.gws.behavior.framework.DomainInvocationOutcome;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,32 +28,21 @@ public final class RegisterHouseResource
     private static final Logger LOG = LoggerFactory.getLogger(RegisterHouseResource.class);
 
     private static final String INVALID_HOUSE_FACTORY = "house factory cannot be null.";
-//    private static final String INVALID_ADDRESS_AUTHENTICATION_SERVICE = "address authentication service cannot be null.";
-//    private static final String INVALID_RUNTIME_PROPERTIES = "runtime properties cannot be null";
             
     private final transient HouseFactory houseFactory;
-//    private final AddressAuthenticator addressAuthenticator;
-//    private final RuntimeEnvironmentProperties runtimeProperties;
     
     /**
      * Constructor.
      * 
-//     * @param addressAuthenticator service to authenticate address.
-//     * @param runtimeProperties properties needed at runtime to successfully execute.
-     * @param propertyFactory factory to create properties.
+     * @param houseFactory factory to create house.
      */
     public RegisterHouseResource(final HouseFactory houseFactory)
-//        final AddressAuthenticator addressAuthenticator,
-//        final RuntimeEnvironmentProperties runtimeProperties)
     {
         LOG.trace("entry");
         
-//        this.validate(addressAuthenticator, runtimeProperties);
         this.validate(houseFactory);
           
         this.houseFactory = houseFactory;
-        //this.addressAuthenticator = addressAuthenticator;
-        //this.runtimeProperties = runtimeProperties;
 
         LOG.trace("exit");
     }
@@ -102,14 +92,10 @@ public final class RegisterHouseResource
      * @param runtimeProperties properties needed at runtime.
      */    
     private void validate(final HouseFactory houseFactory)
-//            final AddressAuthenticator addressAuthenticator,
-//                          final RuntimeEnvironmentProperties runtimeProperties)
     {
         LOG.trace("entry");
         
         Preconditions.checkNotNull(houseFactory, INVALID_HOUSE_FACTORY);
-//        Preconditions.checkNotNull(addressAuthenticator, INVALID_ADDRESS_AUTHENTICATION_SERVICE);
-//        Preconditions.checkNotNull(runtimeProperties, INVALID_RUNTIME_PROPERTIES);
         LOG.debug("passed validation");
 
         LOG.trace("exit");

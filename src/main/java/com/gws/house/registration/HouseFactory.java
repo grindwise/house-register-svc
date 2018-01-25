@@ -8,6 +8,9 @@ package com.gws.house.registration;
 
 import com.google.common.base.Preconditions;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
+import com.gws.behavior.framework.AggregateRootObjectID;
+import com.gws.behavior.framework.AggregateRootObjectIDFactory;
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +25,12 @@ public final class HouseFactory
 
     private static final String INVALID_ADDRESS_AUTHENTICATION_SERVICE = "address authentication service cannot be null.";
     private static final String INVALID_RUNTIME_PROPERTIES = "runtime properties cannot be null";
-            
+
     private final AddressAuthenticator addressAuthenticator;
     private final RuntimeEnvironmentProperties runtimeProperties;
 
     public HouseFactory(final AddressAuthenticator addressAuthenticator,
-                           final RuntimeEnvironmentProperties runtimeProperties)
+                        final RuntimeEnvironmentProperties runtimeProperties)
     {
         LOG.trace("entry");
         
@@ -39,34 +42,22 @@ public final class HouseFactory
         LOG.trace("exit");
     }
     
-    public House create(final HouseInformation houseInformation)
+    protected House create(final HouseInformation houseInformation)
     {
         LOG.trace("entry");
         
-        final ResidentialAddress address =
-            ResidentialAddress.create(houseInformation.addressInformation, addressAuthenticator);
-        final House house = new House(address, this.runtimeProperties);
+        final ResidentialAddressFactory residentialAddressFactory =
+            new ResidentialAddressFactory(this.addressAuthenticator);
+        
+        final ResidentialAddress address = residentialAddressFactory.create(houseInformation.addressInformation);
+        final AggregateRootObjectID aggregateRootObjectID = AggregateRootObjectIDFactory.create();
+        
+        final House house = new House(aggregateRootObjectID, address, this.runtimeProperties);
         
         LOG.trace("exit");
 
         return house;
     }
-
-//    public Property create(final AggregateRootObjectIDInformation aggregateRootObjectIDInformation,
-//                           final HouseInformation houseInformation)
-//    {
-//        LOG.trace("entry");
-//
-//        final ResidentialAddress address =
-//            ResidentialAddress.create(houseInformation.addressInformation, addressAuthenticator);
-//        final AggregateRootObjectID houseObjectID =
-//            new AggregateRootObjectID(aggregateRootObjectIDInformation.aggregateRootObjectID);
-//        final Property property = new House(houseObjectID, address, this.runtimeProperties);
-//        
-//        LOG.trace("exit");
-//
-//        return property;
-//    }
 
     private void validate(final AddressAuthenticator addressAuthenticator,
                           final RuntimeEnvironmentProperties runtimeProperties)
@@ -75,7 +66,8 @@ public final class HouseFactory
 
         Preconditions.checkNotNull(addressAuthenticator, INVALID_ADDRESS_AUTHENTICATION_SERVICE);
         Preconditions.checkNotNull(runtimeProperties, INVALID_RUNTIME_PROPERTIES);
-
+        LOG.debug("passed validation");
+        
         LOG.trace("exit");
     }
 }

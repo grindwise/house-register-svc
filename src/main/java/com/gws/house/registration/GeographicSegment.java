@@ -26,11 +26,6 @@ class GeographicSegment
     
     private final String geographicSegment;
 
-    protected static GeographicSegment create(final String geographicSegment)
-    {
-        return new GeographicSegment(geographicSegment);
-    }
-    
     /**
      * Constructor.
      * 
@@ -47,12 +42,27 @@ class GeographicSegment
         LOG.trace("exit");
     }
 
+    /**
+     * Provide the geographic segment of zip code.
+     * 
+     * @return geographic segment of zip code.
+     */
     protected String provideAddressValue()
     {
         LOG.trace("entry");
         LOG.trace("exit");
 
         return this.geographicSegment;
+    }
+    
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation geographicSegmentbjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        geographicSegmentbjectStateRepresentation.addState("geographicSegment", this.geographicSegment, "String");
+        
+        return geographicSegmentbjectStateRepresentation;
     }
     
     /**

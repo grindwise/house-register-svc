@@ -6,13 +6,20 @@
 
 package com.gws.house.registration;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.common.base.Preconditions;
-import com.mongodb.DB;
+import com.gws.behavior.framework.AggregateRootObject;
+import com.gws.behavior.framework.AggregateRootObjectID;
+import com.gws.behavior.framework.DomainInvocationFactory;
+import com.gws.behavior.framework.DomainInvocationOutcome;
+import com.gws.behavior.framework.DomainInvocationOutcomeFactory;
+import com.gws.behavior.framework.EndOfLifeIndicator;
+import com.gws.behavior.framework.PersistenceRepository;
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import java.util.UUID;
-import org.jongo.Jongo;
-import org.jongo.MongoCollection;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,62 +28,62 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Jim Fiolek  jim.fiolek@grindwise.com
  */
-final class House
+final class House extends AggregateRootObject
 {
     private static final Logger LOG = LoggerFactory.getLogger(House.class);
     
+    private static final String INVALID_OBJECT_ID = "the aggregate root object ID cannot be null.";
     private static final String INVALID_ADDRESS = "the provided address cannot be null.";
     private static final String INVALID_RUNTIME_PROPERTIES = "the provided runtime properties cannot be null.";
     private static final String HOUSE_REGISTERED_SUCCESSFUL_MESSAGE = "house registration was successful.";
     private static final String HOUSE_REGISTERED_FAILURE_INVALID_ADDRESS_MESSAGE = "house address failed validation.";
-    
+
     private final transient HouseRepository houseRepository;
-    private final transient RuntimeEnvironmentProperties runtimeEnvironmentProperties;
-    private final AggregateRootObjectID objectID;
     private final ResidentialAddress address;
-    private String _id;
     
     /**
      * Constructor.
      * 
+     * @param aggregateRootObjectID unique object ID for this.
      * @param address address of property.
      * @param runtimeEnvironmentProperties runtime properties.
      */
-    protected House(final ResidentialAddress address,
+    protected House(final AggregateRootObjectID aggregateRootObjectID,
+                    final ResidentialAddress address,
                     final RuntimeEnvironmentProperties runtimeEnvironmentProperties)
     {
-        super();
+        super(aggregateRootObjectID, EndOfLifeIndicator.False);
         
         LOG.trace("entry");
         
-        this.validate(address, runtimeEnvironmentProperties);
+        this.validate(aggregateRootObjectID, address, runtimeEnvironmentProperties);
         
-        this.objectID = new AggregateRootObjectID();
         this.address = address;
-        this.runtimeEnvironmentProperties = runtimeEnvironmentProperties;
-        this.houseRepository = new Repository();
+        this.houseRepository = new HouseRepository(runtimeEnvironmentProperties);
 
         LOG.trace("exit");
     }
 
-    @JsonCreator
     /**
      * For jongo use only.
      */
-    private House()
-    {
-        LOG.trace("entry");
-
-        this.address = null;
-        this.houseRepository = null;
-        this.objectID = null;
-        this.runtimeEnvironmentProperties = null;
-
-        LOG.trace("exit");
-    }
+//    @JsonCreator
+//    private House()
+//    {
+//        super();
+//        
+//        LOG.trace("entry");
+//
+//        this.address = null;
+//        this.houseRepository = null;
+//
+//        LOG.trace("exit");
+//    }
     
     /**
      * Register a house.  This is the entry point into the domain.
+     * 
+     * @return invocation outcome.
      * 
      * @throws Exception is thrown if the invocation encounters an unexpected error.
      */
@@ -84,19 +91,23 @@ final class House
     {
         LOG.trace("entry");
         
+        this.domainInvocation(DomainInvocationFactory.create("register"));
+        
         final DomainInvocationOutcome registerDomainInvocationOutcome;
 
         try
         {
             // make sure the property is real (authentic)
-            if (this.address.authentic())
+//            if (this.address.authentic())
+            if (true)
             {
                 LOG.debug("house address is valid");
 
-                this.houseRepository.persist(this);
-                LOG.info("house registered");
+                
+                this.houseRepository.save(this);
+                LOG.info("house saved");
 
-                registerDomainInvocationOutcome = new DomainInvocationOutcomeImpl(
+                registerDomainInvocationOutcome = DomainInvocationOutcomeFactory.create(
                     DomainInvocationOutcome.InvocationOutcome.SUCCESS, HOUSE_REGISTERED_SUCCESSFUL_MESSAGE);
 
                 // fire significate domain event: HouseRegistered
@@ -105,7 +116,7 @@ final class House
             {
                 LOG.debug("house address is invalid");
 
-                registerDomainInvocationOutcome = new DomainInvocationOutcomeImpl(
+                registerDomainInvocationOutcome = DomainInvocationOutcomeFactory.create(
                     DomainInvocationOutcome.InvocationOutcome.FAILURE,
                     HOUSE_REGISTERED_FAILURE_INVALID_ADDRESS_MESSAGE);
             }
@@ -123,14 +134,17 @@ final class House
     /**
      * Validate constructor invariants.
      * 
+     * @param aggregateRootObjectID unique identifier for aggregate root object.
      * @param address address of property.
      * @param runtimeEnvironmentProperties runtime properties.
      */
-    private void validate(final ResidentialAddress address,
+    private void validate(final AggregateRootObjectID aggregateRootObjectID,
+                          final ResidentialAddress address,
                           final RuntimeEnvironmentProperties runtimeEnvironmentProperties)
     {
         LOG.trace("entry");
 
+        Preconditions.checkNotNull(aggregateRootObjectID, INVALID_OBJECT_ID);
         Preconditions.checkNotNull(address, INVALID_ADDRESS);
         Preconditions.checkNotNull(runtimeEnvironmentProperties, INVALID_RUNTIME_PROPERTIES);
         LOG.debug("passed validation");
@@ -138,60 +152,82 @@ final class House
         LOG.trace("exit");
     }
     
-    /**
-     * Create the domain entry point.
-     * 
-     * @param domainEntryPointMethod method invoked on the domain.
-     * 
-     * @return instance of a DomainEntryPoint. 
-     */
-    private DomainEntryPoint createDomainEntryPoint(final String domainEntryPointMethod)
+    private JsonObjectStateRepresentation establishState()
     {
-        LOG.trace("entry");
+        final JsonObjectStateRepresentation addressObjectStateRepresentation = this.address.establishState();
+        final JsonObjectStateRepresentation houseObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
         
-        final DomainEntryPoint domainEntryPoint = new DomainEntryPointNoArguments(domainEntryPointMethod);
+        houseObjectStateRepresentation.addState(addressObjectStateRepresentation);
         
-        LOG.trace("exit");
-        
-        return domainEntryPoint;
+        return houseObjectStateRepresentation;
     }
-    
-    private final class Repository extends HouseRepository
+        
+    /**
+     * Specialized repository to save house state.  This implementation
+     * is part of the class to make sure invocations only happen via
+     * domain invocations.
+     */
+    private final class HouseRepository extends PersistenceRepository<House>
     {
         private static final String COLLECTION_NAME = "houses";
+        private static final String PERSISTENT_STORE_ID_ELEMENT = "_id";
+
+        private MongoDatabase datastore;
+        //private MongoCollection houses;
         
-        private MongoCollection houses;
-        
-        private Repository()
+        /**
+         * Constructor.
+         * 
+         * @param houseRepositoryStoreConfiguration persistent store properties.
+         */
+        private HouseRepository(final RuntimeEnvironmentProperties runtimeEnvironmentProperties)
         {
-            super(runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_USERNAME_ENV_VAR),
-                  runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_PASSWORD_ENV_VAR),
-                  runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR),
-                  runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
-                  runtimeEnvironmentProperties.getPropertyValue(
-                  RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR));
+            super();
             
             LOG.trace("entry");
             
-            this.establishDatabase();            
+            this.establishDatabase(runtimeEnvironmentProperties);            
 
             LOG.trace("exit");
         }
         
         @Override
-        protected void persist(final House house) throws Exception
+        protected void save(final House house) throws Exception
         {
-            
             LOG.trace("entry");
             
-            house._id = UUID.randomUUID().toString();
-            
-            houses.save(house);
-            LOG.info("house state persisted");
+            try
+            {
+                final JsonObjectStateRepresentation houseObjectStateRepresentation = house.establishState();
+                final String houseObjectState = houseObjectStateRepresentation.format();
+                final String someState = "{" + houseObjectState + "}";
+                
+                LOG.debug("houseObjectState: " + someState);
+
+                final Document houseDocument = Document.parse(someState);
+                LOG.debug("house document created...");
+                final String persistentStoreID = UUID.randomUUID().toString();
+
+                houseDocument.put(PERSISTENT_STORE_ID_ELEMENT, persistentStoreID);
+                LOG.debug("id added");
+                final MongoCollection<Document> container = this.datastore.getCollection(COLLECTION_NAME);
+                LOG.debug("collection created");
+                
+                container.insertOne(houseDocument);
+            }
+            catch (final Exception exception)
+            {
+                exception.printStackTrace();
+                LOG.error("exception while attempting save to persistent store", exception.getMessage());
+                
+                throw new Exception("exception while attempting save to persistent store", exception);                    
+            }
+//            LOG.info(houseObjectStateRepresentation.format());
+//            //house.id();
+//            
+//            //this.houses.save(house);
+//            LOG.info("house state persisted");
             
             LOG.trace("exit");
         }
@@ -199,23 +235,41 @@ final class House
         /**
          * Establish database.
          */
-        private void establishDatabase()
+        private void establishDatabase(final RuntimeEnvironmentProperties runtimeEnvironmentProperties)
         {
             LOG.trace("entry");
 
-            if (this.houses == null)
+            if (this.datastore == null)
             {
-                final MongoClient mongoClient =
-                    new MongoClient(this.persistentStoreHost, Integer.valueOf(this.persistentStorePort));
+                final MongoClient mongoClient = new MongoClient(runtimeEnvironmentProperties.getPropertyValue(
+                                        RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+                                                                Integer.parseInt(runtimeEnvironmentProperties.getPropertyValue(
+                                        RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
                 
-                @SuppressWarnings({"unchecked", "deprecation"})
-                final DB db = mongoClient.getDB(this.persistentStoreName);
+                this.datastore = mongoClient.getDatabase(runtimeEnvironmentProperties.getPropertyValue(
+                       RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR)); 
 
-                final Jongo store = new Jongo(db);
-
-                this.houses = store.getCollection(COLLECTION_NAME);
-                LOG.debug("houses collection established");
+                LOG.debug("write only data store established");
             }
+            
+//            if (this.houses == null)
+//            {
+//                final MongoClient mongoClient =
+//                    new MongoClient(runtimeEnvironmentProperties.getPropertyValue(
+//                                        RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+//                                    Integer.parseInt(runtimeEnvironmentProperties.getPropertyValue(
+//                                        RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
+//                
+//                @SuppressWarnings({"unchecked", "deprecation"})
+//                final DB db = mongoClient.getDB(
+//                    runtimeEnvironmentProperties.getPropertyValue(
+//                       RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR));
+//
+//                final Jongo store = new Jongo(db);
+//
+//                this.houses = store.getCollection(COLLECTION_NAME);
+//                LOG.debug("houses collection established");
+//            }
 
             LOG.trace("exit");   
         }

@@ -32,25 +32,6 @@ class ResidentialAddress
     private final ZipCode zipCode;
     private final transient AddressAuthenticator addressAuthenticator;
     
-    protected static ResidentialAddress create(final AddressInformation addressInformation,
-                                               final AddressAuthenticator addressAuthenticator)
-    {
-        final StreetNumber streetNumber = StreetNumber.create(addressInformation.streetNumber);
-        final StreetName streetName = StreetName.create(addressInformation.streetName);
-        final Street street = Street.create(streetNumber, streetName);
-        final City city = City.create(addressInformation.cityName);
-        final StateAbbreviationCode stateAbbreviationCode =
-            StateAbbreviationCode.create(addressInformation.stateAbbreviationCode);
-        final StateName stateName =
-            StateName.create(addressInformation.stateName);
-        final State state = State.create(stateAbbreviationCode, stateName);
-        final DeliveryArea deliveryArea = DeliveryArea.create(addressInformation.deliveryArea);
-        final GeographicSegment geographicSegment = GeographicSegment.create(addressInformation.geographicSegment);
-        final ZipCode zipCode = ZipCode.create(deliveryArea, geographicSegment);
-        
-        return new ResidentialAddress(street, city, state, zipCode, addressAuthenticator);
-    }
-    
     /**
      * Constructor.
      * 
@@ -94,6 +75,22 @@ class ResidentialAddress
 
         return this.addressAuthenticator.authentic(
             streetOfAddress, cityOfAddress, stateCodeOfAddress, zipCodeOfAddress);        
+    }
+
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation streetObjectStateRepresentation = this.street.establishState();
+        final JsonObjectStateRepresentation cityObjectStateRepresentation = this.city.establishState();
+        final JsonObjectStateRepresentation stateObjectStateRepresentation = this.state.establishState();
+        final JsonObjectStateRepresentation zipCodeObjectStateRepresentation = this.zipCode.establishState();
+        
+        final JsonObjectStateRepresentation addressObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+        addressObjectStateRepresentation.addState(
+            streetObjectStateRepresentation, cityObjectStateRepresentation,
+            stateObjectStateRepresentation, zipCodeObjectStateRepresentation);
+        
+        return addressObjectStateRepresentation;
     }
 
     /**

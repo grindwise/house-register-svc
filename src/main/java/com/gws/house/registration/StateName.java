@@ -25,11 +25,6 @@ class StateName
     
     private final String stateName;
 
-    protected static StateName create(final String stateName)
-    {
-        return new StateName(stateName);
-    }
-    
     /**
      * Constructor.
      * 
@@ -46,6 +41,16 @@ class StateName
         LOG.trace("exit");
     }
 
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation stateNameObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        stateNameObjectStateRepresentation.addState("stateName", this.stateName, "String");
+        
+        return stateNameObjectStateRepresentation;
+    }
+    
     /**
      * Validate constructor invariants.
      * 

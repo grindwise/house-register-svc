@@ -5,13 +5,8 @@
  */
 package com.gws.house.registration;
 
-import com.gws.house.registration.HouseFactory;
-import com.gws.house.registration.House;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
-import com.gws.house.registration.AddressInformation;
-import com.gws.house.registration.HouseInformation;
-import com.gws.house.registration.RegisterHouseRuntimeProperties;
-import com.gws.house.registration.RuntimeEnvironmentProperties;
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.Hidden;
 import com.tngtech.jgiven.annotation.ScenarioState;
@@ -54,7 +49,6 @@ public class RegisterHouseGiven extends Stage<RegisterHouseGiven>
         
         final Answer answer = new AddressVerificationAnswer(this.validAddressIndicator);
         final AddressAuthenticator addressAuthenticator = Mockito.mock(AddressAuthenticator.class, answer);
-        
         final RuntimeEnvironmentProperties properties =
             new RegisterHouseRuntimeProperties();
         

@@ -5,6 +5,7 @@
  */
 package com.gws.house.registration;
 
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -71,21 +72,21 @@ public final class RegisterHouseAcceptanceTest extends ScenarioTest<
         {
             this.establishRuntimeEnvironmentVariables(processRuntimeEnvironmentVariables);
         
-            final RuntimeEnvironmentProperties purchaseHouseEnvironmentProperties =
+            final RuntimeEnvironmentProperties registerHouseEnvironmentProperties =
                 new RegisterHouseRuntimeProperties();
 
             final MongoClient mongoClient = new MongoClient(
-                purchaseHouseEnvironmentProperties.getPropertyValue(
+                registerHouseEnvironmentProperties.getPropertyValue(
                     RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
-                Integer.parseInt(purchaseHouseEnvironmentProperties.getPropertyValue(
+                Integer.parseInt(registerHouseEnvironmentProperties.getPropertyValue(
                     RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
         
             final MongoDatabase housesDatabase = mongoClient.getDatabase(
-                purchaseHouseEnvironmentProperties.getPropertyValue(
+                registerHouseEnvironmentProperties.getPropertyValue(
                     RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR));
             
             final MongoCollection<Document> housesCollection = housesDatabase.getCollection(
-                purchaseHouseEnvironmentProperties.getPropertyValue(
+                registerHouseEnvironmentProperties.getPropertyValue(
                     RegisterHouseRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
 
             housesCollection.drop();

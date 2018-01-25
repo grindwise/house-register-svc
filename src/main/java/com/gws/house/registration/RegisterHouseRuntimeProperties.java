@@ -6,6 +6,7 @@
 
 package com.gws.house.registration;
 
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import java.util.HashMap;
 import java.util.Map;
 import jersey.repackaged.com.google.common.base.Preconditions;

@@ -25,11 +25,6 @@ class Street
     private final StreetNumber streetNumber;
     private final StreetName streetName;
     
-    protected static Street create(final StreetNumber streetNumber, final StreetName streetName)
-    {
-        return new Street(streetNumber, streetName);
-    }
-    
     /**
      * Constructor.
      * 
@@ -62,6 +57,23 @@ class Street
         return street;
     }
 
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation streetNumberObjectStateRepresentation =
+            this.streetNumber.establishState();
+
+        final JsonObjectStateRepresentation streetNameObjectStateRepresentation =
+            this.streetName.establishState();
+        
+        final JsonObjectStateRepresentation streetObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        streetObjectStateRepresentation.addState(
+            streetNumberObjectStateRepresentation, streetNameObjectStateRepresentation);
+        
+        return streetObjectStateRepresentation;
+    }
+    
     /**
      * Validate constructor invariants are valid.
      * 

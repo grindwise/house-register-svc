@@ -25,11 +25,6 @@ class StreetNumber
     
     private final String streetNumber;
     
-    protected static StreetNumber create(final String streetNumber)
-    {
-        return new StreetNumber(streetNumber);
-    }
-    
     /**
      * Constructor.
      * 
@@ -54,6 +49,16 @@ class StreetNumber
         return this.streetNumber;
     }
 
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation streetNumberObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        streetNumberObjectStateRepresentation.addState("streetNumber", this.streetNumber, "String");
+        
+        return streetNumberObjectStateRepresentation;
+    }
+    
     /**
      * Validate constructor invariants.
      * 

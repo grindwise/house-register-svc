@@ -11,6 +11,9 @@ import com.google.inject.Injector;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
 import com.grindwise.addressauthenticator.AddressAuthenticatorFactory;
 import com.grindwise.addressauthenticator.AddressAuthenticatorModule;
+import com.gws.behavior.framework.AggregateRootObjectIDFactory;
+import com.gws.behavior.framework.BehaviorModule;
+import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -52,7 +55,8 @@ public final class RegisterHouseService extends Application<RegisterHouseService
     {
         LOG.trace("entry");
         
-        injector = Guice.createInjector(new AddressAuthenticatorModule());
+        injector = Guice.createInjector(new AddressAuthenticatorModule(),
+                                        new BehaviorModule());
 
         // no exit after run - causes embedded jetty server to exit
         new RegisterHouseService().run(args);
@@ -120,7 +124,11 @@ public final class RegisterHouseService extends Application<RegisterHouseService
             registerHouseServiceConfiguration.getAddressAuthenticatorID(),
             registerHouseServiceConfiguration.getAddressAuthenticatorToken());
         
-        final HouseFactory propertyFactory = new HouseFactory(addressAuthenticator, runtimeProperties);
+        final AggregateRootObjectIDFactory aggregateRootObjectIDFactory =
+            injector.getInstance(AggregateRootObjectIDFactory.class);
+        
+        final HouseFactory propertyFactory =
+            new HouseFactory(addressAuthenticator, runtimeProperties);
         
         final RegisterHouseResource registerHouseResource =
             new RegisterHouseResource(propertyFactory);

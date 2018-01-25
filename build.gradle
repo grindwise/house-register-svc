@@ -33,6 +33,7 @@ repositories {
 
 dependencies {
     compile "com.gws.addressauthenticator:gws.addressauthenticator:${aaVersion}"
+    compile "com.gws.behavior.framework:gws.behavior.framework:${behaviorVersion}"
     compile "org.slf4j:slf4j-api:${slf4Version}"
     compile "io.dropwizard:dropwizard-core:${dropWizardVersion}"
     compile "io.dropwizard:dropwizard-views-mustache:${dropWizardVersion}"
@@ -41,7 +42,7 @@ dependencies {
     compile "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
     compile "org.mockito:mockito-all:${mockitoVersion}"
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    compile "org.jongo:jongo:${jongoVersion}"
+    //compile "org.jongo:jongo:${jongoVersion}"
     compile "org.mongodb:mongodb-driver:${mongoDriverVersion}"
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
     testCompile "junit:junit:${junitVersion}"

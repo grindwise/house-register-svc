@@ -26,11 +26,6 @@ class StateAbbreviationCode
 
     private final String stateAbbreviationCode;
 
-    protected static StateAbbreviationCode create(final String stateAbbreviationCode)
-    {
-        return new StateAbbreviationCode(stateAbbreviationCode);
-    }
-    
     /**
      * Constructor.
      *  
@@ -55,6 +50,17 @@ class StateAbbreviationCode
         return this.stateAbbreviationCode;
     }
     
+    protected JsonObjectStateRepresentation establishState()
+    {
+        final JsonObjectStateRepresentation stateAbbreviationObjectStateRepresentation =
+            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+
+        stateAbbreviationObjectStateRepresentation.addState(
+            "stateAbbreviationCode", this.stateAbbreviationCode, "String");
+        
+        return stateAbbreviationObjectStateRepresentation;
+    }
+
     /**
      * Validate constructor invariants are valid.
      * 
