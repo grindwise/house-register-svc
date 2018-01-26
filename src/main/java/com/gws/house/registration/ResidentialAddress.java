@@ -8,6 +8,7 @@ package com.gws.house.registration;
 
 import com.google.common.base.Preconditions;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
+import com.gws.behavior.framework.ObjectStateRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,15 +78,16 @@ class ResidentialAddress
             streetOfAddress, cityOfAddress, stateCodeOfAddress, zipCodeOfAddress);        
     }
 
-    protected JsonObjectStateRepresentation establishState()
+    protected ObjectStateRepresentation establishState(
+        final House.HouseObjectStateRepresentationFactory houseObjectStateRepresentationFactory)
     {
-        final JsonObjectStateRepresentation streetObjectStateRepresentation = this.street.establishState();
-        final JsonObjectStateRepresentation cityObjectStateRepresentation = this.city.establishState();
-        final JsonObjectStateRepresentation stateObjectStateRepresentation = this.state.establishState();
-        final JsonObjectStateRepresentation zipCodeObjectStateRepresentation = this.zipCode.establishState();
+        final ObjectStateRepresentation streetObjectStateRepresentation = this.street.establishState(houseObjectStateRepresentationFactory);
+        final ObjectStateRepresentation cityObjectStateRepresentation = this.city.establishState(houseObjectStateRepresentationFactory);
+        final ObjectStateRepresentation stateObjectStateRepresentation = this.state.establishState(houseObjectStateRepresentationFactory);
+        final ObjectStateRepresentation zipCodeObjectStateRepresentation = this.zipCode.establishState(houseObjectStateRepresentationFactory);
         
-        final JsonObjectStateRepresentation addressObjectStateRepresentation =
-            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+        final ObjectStateRepresentation addressObjectStateRepresentation =
+            houseObjectStateRepresentationFactory.create(this.getClass().getSimpleName(), true);
         addressObjectStateRepresentation.addState(
             streetObjectStateRepresentation, cityObjectStateRepresentation,
             stateObjectStateRepresentation, zipCodeObjectStateRepresentation);

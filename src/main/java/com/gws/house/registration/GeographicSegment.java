@@ -7,6 +7,7 @@
 package com.gws.house.registration;
 
 import com.google.common.base.Preconditions;
+import com.gws.behavior.framework.ObjectStateRepresentation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +56,11 @@ class GeographicSegment
         return this.geographicSegment;
     }
     
-    protected JsonObjectStateRepresentation establishState()
+    protected ObjectStateRepresentation establishState(
+        final House.HouseObjectStateRepresentationFactory houseObjectStateRepresentationFactory)
     {
-        final JsonObjectStateRepresentation geographicSegmentbjectStateRepresentation =
-            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+        final ObjectStateRepresentation geographicSegmentbjectStateRepresentation =
+            houseObjectStateRepresentationFactory.create(this.getClass().getSimpleName(), true);
 
         geographicSegmentbjectStateRepresentation.addState("geographicSegment", this.geographicSegment, "String");
         

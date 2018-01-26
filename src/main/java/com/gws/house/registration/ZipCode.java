@@ -7,6 +7,7 @@
 package com.gws.house.registration;
 
 import com.google.common.base.Preconditions;
+import com.gws.behavior.framework.ObjectStateRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,16 +58,17 @@ class ZipCode
         return zipCode;
     }
     
-    protected JsonObjectStateRepresentation establishState()
+    protected ObjectStateRepresentation establishState(
+        final House.HouseObjectStateRepresentationFactory houseObjectStateRepresentationFactory)
     {
-        final JsonObjectStateRepresentation deliveryAreaObjectStateRepresentation =
-            this.deliveryArea.establishState();
+        final ObjectStateRepresentation deliveryAreaObjectStateRepresentation =
+            this.deliveryArea.establishState(houseObjectStateRepresentationFactory);
 
-        final JsonObjectStateRepresentation geographicSegmentObjectStateRepresentation =
-            this.geographicSegment.establishState();
+        final ObjectStateRepresentation geographicSegmentObjectStateRepresentation =
+            this.geographicSegment.establishState(houseObjectStateRepresentationFactory);
         
-        final JsonObjectStateRepresentation zipCodeObjectStateRepresentation =
-            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+        final ObjectStateRepresentation zipCodeObjectStateRepresentation =
+            houseObjectStateRepresentationFactory.create(this.getClass().getSimpleName(), true);
 
         zipCodeObjectStateRepresentation.addState(
             deliveryAreaObjectStateRepresentation, geographicSegmentObjectStateRepresentation);

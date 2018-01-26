@@ -13,6 +13,8 @@ import com.gws.behavior.framework.DomainInvocationFactory;
 import com.gws.behavior.framework.DomainInvocationOutcome;
 import com.gws.behavior.framework.DomainInvocationOutcomeFactory;
 import com.gws.behavior.framework.EndOfLifeIndicator;
+import com.gws.behavior.framework.JsonObjectStateRepresentation;
+import com.gws.behavior.framework.ObjectStateRepresentation;
 import com.gws.behavior.framework.PersistenceRepository;
 import com.gws.behavior.framework.RuntimeEnvironmentProperties;
 import com.mongodb.MongoClient;
@@ -64,22 +66,6 @@ final class House extends AggregateRootObject
         LOG.trace("exit");
     }
 
-    /**
-     * For jongo use only.
-     */
-//    @JsonCreator
-//    private House()
-//    {
-//        super();
-//        
-//        LOG.trace("entry");
-//
-//        this.address = null;
-//        this.houseRepository = null;
-//
-//        LOG.trace("exit");
-//    }
-    
     /**
      * Register a house.  This is the entry point into the domain.
      * 
@@ -152,17 +138,28 @@ final class House extends AggregateRootObject
         LOG.trace("exit");
     }
     
-    private JsonObjectStateRepresentation establishState()
+    /**
+     * Establish the current state of this.
+     * 
+     * @param houseObjectStateRepresentationFactory factory to create the object state representation.
+     *
+     * @return ObjectStateRepresentation state of the this. 
+     */
+    private ObjectStateRepresentation establishState(
+        final HouseObjectStateRepresentationFactory houseObjectStateRepresentationFactory)
     {
-        final JsonObjectStateRepresentation addressObjectStateRepresentation = this.address.establishState();
-        final JsonObjectStateRepresentation houseObjectStateRepresentation =
-            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+        final ObjectStateRepresentation addressObjectStateRepresentation =
+            this.address.establishState(houseObjectStateRepresentationFactory);
+        final ObjectStateRepresentation houseObjectStateRepresentation =
+            houseObjectStateRepresentationFactory.create(this.getClass().getSimpleName(), true);
         
         houseObjectStateRepresentation.addState(addressObjectStateRepresentation);
         
         return houseObjectStateRepresentation;
     }
         
+    // ** persistence support **
+    
     /**
      * Specialized repository to save house state.  This implementation
      * is part of the class to make sure invocations only happen via
@@ -173,8 +170,8 @@ final class House extends AggregateRootObject
         private static final String COLLECTION_NAME = "houses";
         private static final String PERSISTENT_STORE_ID_ELEMENT = "_id";
 
+        private final transient HouseObjectStateRepresentationFactory houseObjectStateRepresentationFactory;
         private MongoDatabase datastore;
-        //private MongoCollection houses;
         
         /**
          * Constructor.
@@ -187,7 +184,9 @@ final class House extends AggregateRootObject
             
             LOG.trace("entry");
             
-            this.establishDatabase(runtimeEnvironmentProperties);            
+            this.establishDatabase(runtimeEnvironmentProperties);    
+            
+            this.houseObjectStateRepresentationFactory = new HouseObjectStateRepresentationFactory();
 
             LOG.trace("exit");
         }
@@ -199,8 +198,10 @@ final class House extends AggregateRootObject
             
             try
             {
-                final JsonObjectStateRepresentation houseObjectStateRepresentation = house.establishState();
+                final ObjectStateRepresentation houseObjectStateRepresentation =
+                    house.establishState(houseObjectStateRepresentationFactory);
                 final String houseObjectState = houseObjectStateRepresentation.format();
+                
                 final String someState = "{" + houseObjectState + "}";
                 
                 LOG.debug("houseObjectState: " + someState);
@@ -218,16 +219,10 @@ final class House extends AggregateRootObject
             }
             catch (final Exception exception)
             {
-                exception.printStackTrace();
-                LOG.error("exception while attempting save to persistent store", exception.getMessage());
+                LOG.error("exception while attempting save to persistent store", exception);
                 
                 throw new Exception("exception while attempting save to persistent store", exception);                    
             }
-//            LOG.info(houseObjectStateRepresentation.format());
-//            //house.id();
-//            
-//            //this.houses.save(house);
-//            LOG.info("house state persisted");
             
             LOG.trace("exit");
         }
@@ -247,31 +242,26 @@ final class House extends AggregateRootObject
                                         RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
                 
                 this.datastore = mongoClient.getDatabase(runtimeEnvironmentProperties.getPropertyValue(
-                       RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR)); 
+                    RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR)); 
 
                 LOG.debug("write only data store established");
             }
             
-//            if (this.houses == null)
-//            {
-//                final MongoClient mongoClient =
-//                    new MongoClient(runtimeEnvironmentProperties.getPropertyValue(
-//                                        RegisterHouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
-//                                    Integer.parseInt(runtimeEnvironmentProperties.getPropertyValue(
-//                                        RegisterHouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)));
-//                
-//                @SuppressWarnings({"unchecked", "deprecation"})
-//                final DB db = mongoClient.getDB(
-//                    runtimeEnvironmentProperties.getPropertyValue(
-//                       RegisterHouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR));
-//
-//                final Jongo store = new Jongo(db);
-//
-//                this.houses = store.getCollection(COLLECTION_NAME);
-//                LOG.debug("houses collection established");
-//            }
-
             LOG.trace("exit");   
+        }        
+    }
+    
+    /**
+     * Object State Representation factory to provide object state representation instances.
+     */
+    final class HouseObjectStateRepresentationFactory
+    {
+        protected ObjectStateRepresentation create(final String objectName, final boolean includeObjectName)
+        {
+            LOG.trace("entry");
+            LOG.trace("exit");
+
+            return new JsonObjectStateRepresentation(objectName, includeObjectName);
         }
     }
 }

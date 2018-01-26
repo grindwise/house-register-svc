@@ -7,6 +7,7 @@
 package com.gws.house.registration;
 
 import com.google.common.base.Preconditions;
+import com.gws.behavior.framework.ObjectStateRepresentation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +50,11 @@ class StreetNumber
         return this.streetNumber;
     }
 
-    protected JsonObjectStateRepresentation establishState()
+    protected ObjectStateRepresentation establishState(
+        final House.HouseObjectStateRepresentationFactory houseObjectStateRepresentationFactory)
     {
-        final JsonObjectStateRepresentation streetNumberObjectStateRepresentation =
-            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+        final ObjectStateRepresentation streetNumberObjectStateRepresentation =
+            houseObjectStateRepresentationFactory.create(this.getClass().getSimpleName(), true);
 
         streetNumberObjectStateRepresentation.addState("streetNumber", this.streetNumber, "String");
         

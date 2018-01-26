@@ -7,6 +7,7 @@
 package com.gws.house.registration;
 
 import com.google.common.base.Preconditions;
+import com.gws.behavior.framework.ObjectStateRepresentation;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +42,11 @@ class StateName
         LOG.trace("exit");
     }
 
-    protected JsonObjectStateRepresentation establishState()
+    protected ObjectStateRepresentation establishState(
+        final House.HouseObjectStateRepresentationFactory houseObjectStateRepresentationFactory)
     {
-        final JsonObjectStateRepresentation stateNameObjectStateRepresentation =
-            new JsonObjectStateRepresentation(this.getClass().getSimpleName(), true);
+        final ObjectStateRepresentation stateNameObjectStateRepresentation =
+            houseObjectStateRepresentationFactory.create(this.getClass().getSimpleName(), true);
 
         stateNameObjectStateRepresentation.addState("stateName", this.stateName, "String");
         
