@@ -43,19 +43,19 @@ pipeline {
                echo "build clean shadowJar"
                sh 'gradle clean shadowJar'
                sh 'gradle test'
-               sh 'gradle findbugsMain'
-               sh 'gradle checkstyleMain'
+               //sh 'gradle findbugsMain'
+               //sh 'gradle checkstyleMain'
             }
         }
 
-        stage('Acceptance'){
-            steps {
-               echo "build aat jar"
-               sh 'gradle acceptanceTestJar'
-               echo "executing acceptance tests"
-               sh 'gradle acceptanceTest'
-            }
-        }
+        //stage('Acceptance'){
+        //    steps {
+        //       echo "build aat jar"
+        //       sh 'gradle acceptanceTestJar'
+        //       echo "executing acceptance tests"
+        //       sh 'gradle acceptanceTest'
+        //    }
+        //}
 
         stage('Container image') {
             steps {
