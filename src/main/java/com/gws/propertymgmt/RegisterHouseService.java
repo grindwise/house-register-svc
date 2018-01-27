@@ -114,8 +114,7 @@ public final class RegisterHouseService extends Application<RegisterHouseService
     {
         LOG.trace("entry");
         
-        final RuntimeEnvironmentProperties runtimeProperties =
-            new RegisterHouseRuntimeProperties();
+        final RuntimeEnvironmentProperties runtimeProperties = new HouseRuntimeProperties();
 
         final AddressAuthenticatorFactory addressAuthenticatorFactory =
             injector.getInstance(AddressAuthenticatorFactory.class);
