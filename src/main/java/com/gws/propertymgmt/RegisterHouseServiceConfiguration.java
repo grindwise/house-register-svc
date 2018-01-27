@@ -4,7 +4,7 @@
  * Copyright (C) 2018 Grind Wise Inc. - Software Engineering Services
  */
 
-package com.gws.house.registration;
+package com.gws.propertymgmt;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;

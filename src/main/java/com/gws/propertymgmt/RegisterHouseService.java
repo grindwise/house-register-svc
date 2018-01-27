@@ -4,16 +4,16 @@
  * Copyright (C) 2018 Grind Wise Inc. - Software Engineering Services
  */
 
-package com.gws.house.registration;
+package com.gws.propertymgmt;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
 import com.grindwise.addressauthenticator.AddressAuthenticatorFactory;
 import com.grindwise.addressauthenticator.AddressAuthenticatorModule;
-import com.gws.behavior.framework.AggregateRootObjectIDFactory;
-import com.gws.behavior.framework.BehaviorModule;
-import com.gws.behavior.framework.RuntimeEnvironmentProperties;
+import com.gws.productionenvy.framework.AggregateRootObjectIDFactory;
+import com.gws.productionenvy.framework.ProductionEnvyFWModule;
+import com.gws.productionenvy.framework.RuntimeEnvironmentProperties;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -56,7 +56,7 @@ public final class RegisterHouseService extends Application<RegisterHouseService
         LOG.trace("entry");
         
         injector = Guice.createInjector(new AddressAuthenticatorModule(),
-                                        new BehaviorModule());
+                                        new ProductionEnvyFWModule());
 
         // no exit after run - causes embedded jetty server to exit
         new RegisterHouseService().run(args);

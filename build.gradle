@@ -33,7 +33,9 @@ repositories {
 
 dependencies {
     compile "com.gws.addressauthenticator:gws.addressauthenticator:${aaVersion}"
-    compile "com.gws.behavior.framework:gws.behavior.framework:${behaviorVersion}"
+    compile "com.gws.productionenvy.framework:gws.productionenvy.framework:${productionEnvyVersion}"
+    compile "com.gws.propertymgmt:propertymgmt:${propertyMgmtVersion}"
+    compile "com.gws.propertymgmt:propertymgmt.house:${propertyMgmtHouseVersion}"
     compile "org.slf4j:slf4j-api:${slf4Version}"
     compile "io.dropwizard:dropwizard-core:${dropWizardVersion}"
     compile "io.dropwizard:dropwizard-views-mustache:${dropWizardVersion}"
@@ -49,35 +51,12 @@ dependencies {
     testCompile "com.tngtech.jgiven:jgiven-junit:${jgivenVersion}"
 }
 
-sourceSets {
-    acceptanceTest {
-        java.srcDir file('src/acceptanceTest/java')
-	compileClasspath += main.output
-	runtimeClasspath += main.output
-    }
-}
-
-configurations {
-    acceptanceTestCompile.extendsFrom testCompile
-    acceptanceTestRuntime.extendsFrom testRuntime
-}
-
-task acceptanceTests(type: Test) {
-    testClassesDir = sourceSets.acceptanceTest.output.classesDir
-    classpath = sourceSets.acceptanceTest.runtimeClasspath
-}
-
-task acceptanceTestsJar(dependsOn: compileAcceptanceTestJava, type: Jar) {
-    baseName = "${project.name}-at"
-    from sourceSets.acceptanceTest.output.classesDir
-}
-
 compileJava {
     options.encoding = 'UTF-8'
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
-mainClassName = 'com.gws.house.registration.RegisterHouseService'
+mainClassName = 'com.gws.propertymgmt.RegisterHouseService'
 
 shadowJar {
 

@@ -4,10 +4,10 @@
  * Copyright (C) 2018 Grind Wise Inc. - Software Engineering Services
  */
 
-package com.gws.house.registration;
+package com.gws.propertymgmt;
 
 import com.google.common.base.Preconditions;
-import com.gws.behavior.framework.DomainInvocationOutcome;
+import com.gws.productionenvy.framework.DomainInvocationOutcome;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

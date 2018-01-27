@@ -22,7 +22,7 @@ readonly etc=$root/etc
 # source environment
 [ -f "${etc}/environment" ] && source ${etc}/environment
 
-jarName=propertymgmt.house.registration-${version}.jar
+jarName=propertymgmt.house.register-${version}.jar
 
 java -Ddw.addressAuthenticatorID=${address_authenticator_auth_id} -Ddw.addressAuthenticatorToken=${address_authenticator_auth_token} -jar ${lib}/${jarName} server ${etc}/RegisterHouseService.yml
 returnCode=$?

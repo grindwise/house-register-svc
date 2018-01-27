@@ -4,9 +4,9 @@
  * Copyright (C) 2018 Grind Wise Inc. - Software Engineering Services
  */
 
-package com.gws.house.registration;
+package com.gws.propertymgmt;
 
-import com.gws.behavior.framework.RuntimeEnvironmentProperties;
+import com.gws.productionenvy.framework.RuntimeEnvironmentProperties;
 import java.util.HashMap;
 import java.util.Map;
 import jersey.repackaged.com.google.common.base.Preconditions;
