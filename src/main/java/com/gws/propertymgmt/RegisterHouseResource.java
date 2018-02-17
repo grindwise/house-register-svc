@@ -65,14 +65,28 @@ public final class RegisterHouseResource
         
         try
         {
-            final House houseBeingRegistered = this.houseFactory.create(houseInformation);
-            LOG.debug("new house created");
-        
-            /* entry point into the domain via aggregate root (invoke domain behavior) */
-            registerDomainInvocationOutcome = houseBeingRegistered.register();
-            LOG.debug("register invocation successful");
+            final Property houseBeingRegistered = this.houseFactory.create(houseInformation);
             
-            response = Response.status(Response.Status.OK).entity(registerDomainInvocationOutcome.toString()).build();
+            if (houseBeingRegistered instanceof NullHouse)
+            {
+                registerDomainInvocationOutcome = houseBeingRegistered.register();
+                
+                response = Response.status(Response.Status.OK).entity(
+                    registerDomainInvocationOutcome.toString()).build();
+                
+                LOG.info("null house was created due to" + registerDomainInvocationOutcome.toString());
+            }
+            else
+            {
+                LOG.debug("new house created");
+        
+                /* entry point into the domain via aggregate root (invoke domain behavior) */
+                registerDomainInvocationOutcome = houseBeingRegistered.register();
+                LOG.debug("register invocation successful");
+            
+                response = Response.status(Response.Status.OK).entity(
+                    registerDomainInvocationOutcome.toString()).build();
+            }
         }
         catch (final Exception exception)
         {
