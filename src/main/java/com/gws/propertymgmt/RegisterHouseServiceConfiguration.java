@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class RegisterHouseServiceConfiguration extends Configuration
 {
-    private static final Logger LOG = LoggerFactory.getLogger(RegisterHouseServiceConfiguration.class);
+    private static final transient Logger LOG = LoggerFactory.getLogger(RegisterHouseServiceConfiguration.class);
     
     @NotEmpty
     private String addressAuthenticatorID;

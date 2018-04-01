@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class RegisterHouseService extends Application<RegisterHouseServiceConfiguration>
 {
-    private static final Logger LOG = LoggerFactory.getLogger(RegisterHouseService.class);
+    private static final transient Logger LOG = LoggerFactory.getLogger(RegisterHouseService.class);
     private static final String SERVICE_IS_READY = "register house service is ready to go...";
     
     private static final String NAME = "Register House Service";

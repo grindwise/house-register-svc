@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 @Path("/house/register")
 public final class RegisterHouseResource
 {
-    private static final Logger LOG = LoggerFactory.getLogger(RegisterHouseResource.class);
+    private static final transient Logger LOG = LoggerFactory.getLogger(RegisterHouseResource.class);
 
     private static final String INVALID_HOUSE_FACTORY = "house factory cannot be null.";
             
