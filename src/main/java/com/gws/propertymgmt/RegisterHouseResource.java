@@ -61,37 +61,25 @@ public final class RegisterHouseResource
         LOG.trace("entry");
 
         Response response;
-        final DomainInvocationOutcome registerDomainInvocationOutcome;
         
-        try
+        // create the house (property)
+        final Property houseBeingRegistered = this.houseFactory.create(houseInformation);
+        LOG.debug("new house created");
+
+        // entry point into the domain via aggregate root (invoke domain behavior)
+        final DomainInvocationOutcome registerDomainInvocationOutcome = houseBeingRegistered.register();
+        LOG.debug(registerDomainInvocationOutcome.toString());
+
+        // establish appropriate http response based on outcome
+        if (registerDomainInvocationOutcome.invocationSuccess())
         {
-            final Property houseBeingRegistered = this.houseFactory.create(houseInformation);
-            
-            if (houseBeingRegistered instanceof NullHouse)
-            {
-                registerDomainInvocationOutcome = houseBeingRegistered.register();
-                
-                response = Response.status(Response.Status.OK).entity(
-                    registerDomainInvocationOutcome.toString()).build();
-                
-                LOG.info("null house was created due to" + registerDomainInvocationOutcome.toString());
-            }
-            else
-            {
-                LOG.debug("new house created");
-        
-                /* entry point into the domain via aggregate root (invoke domain behavior) */
-                registerDomainInvocationOutcome = houseBeingRegistered.register();
-                LOG.debug("register invocation successful");
-            
-                response = Response.status(Response.Status.OK).entity(
-                    registerDomainInvocationOutcome.toString()).build();
-            }
+            response = Response.status(Response.Status.OK).entity(
+                registerDomainInvocationOutcome.toString()).build();
         }
-        catch (final Exception exception)
+        else
         {
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).
-                entity(exception.getLocalizedMessage()).build();            
+            response = Response.status(Response.Status.BAD_REQUEST).entity(
+                registerDomainInvocationOutcome.toString()).build();
         }
 
         LOG.trace("exit");

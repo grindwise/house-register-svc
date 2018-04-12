@@ -11,7 +11,6 @@ import com.google.inject.Injector;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
 import com.grindwise.addressauthenticator.AddressAuthenticatorFactory;
 import com.grindwise.addressauthenticator.AddressAuthenticatorModule;
-import com.gws.productionenvy.framework.AggregateRootObjectIDFactory;
 import com.gws.productionenvy.framework.ProductionEnvyFWModule;
 import com.gws.productionenvy.framework.RuntimeEnvironmentProperties;
 import io.dropwizard.Application;
@@ -123,9 +122,6 @@ public final class RegisterHouseService extends Application<RegisterHouseService
             registerHouseServiceConfiguration.getAddressAuthenticatorID(),
             registerHouseServiceConfiguration.getAddressAuthenticatorToken());
         
-        final AggregateRootObjectIDFactory aggregateRootObjectIDFactory =
-            injector.getInstance(AggregateRootObjectIDFactory.class);
-        
         final HouseFactory propertyFactory =
             new HouseFactory(addressAuthenticator, runtimeProperties);
         
@@ -136,6 +132,7 @@ public final class RegisterHouseService extends Application<RegisterHouseService
 
         return registerHouseResource;
     }
+    
     /**
      * Create health check.
      * 
