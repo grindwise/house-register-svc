@@ -62,7 +62,7 @@ public final class RegisterHouseResource
     {
         LOG.trace("entry");
 
-        Response response = null;
+        Response response;
         
         try
         {
@@ -71,7 +71,7 @@ public final class RegisterHouseResource
             LOG.debug("new house created");
 
             houseBeingRegistered.register();
-            LOG.debug("new house registered");
+            LOG.debug(HOUSE_REGISTERED_SUCCESSFULLY);
 
             response = Response.status(Response.Status.OK).entity(HOUSE_REGISTERED_SUCCESSFULLY).build();
         }
