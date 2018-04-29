@@ -7,7 +7,8 @@
 package com.gws.propertymgmt;
 
 import com.google.common.base.Preconditions;
-import com.gws.productionenvy.framework.DomainInvocationOutcome;
+import com.gws.productionenvy.framework.AggregateRootObjectCreationException;
+import com.gws.productionenvy.framework.DomainEntryPointException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -28,6 +29,7 @@ public final class RegisterHouseResource
     private static final transient Logger LOG = LoggerFactory.getLogger(RegisterHouseResource.class);
 
     private static final String INVALID_HOUSE_FACTORY = "house factory cannot be null.";
+    private static final String HOUSE_REGISTERED_SUCCESSFULLY = "house registered successfully.";
             
     private final transient HouseFactory houseFactory;
     
@@ -60,28 +62,24 @@ public final class RegisterHouseResource
     {
         LOG.trace("entry");
 
-        Response response;
+        Response response = null;
         
-        // create the house (property)
-        final Property houseBeingRegistered = this.houseFactory.create(houseInformation);
-        LOG.debug("new house created");
-
-        // entry point into the domain via aggregate root (invoke domain behavior)
-        final DomainInvocationOutcome registerDomainInvocationOutcome = houseBeingRegistered.register();
-        LOG.debug(registerDomainInvocationOutcome.toString());
-
-        // establish appropriate http response based on outcome
-        if (registerDomainInvocationOutcome.invocationSuccess())
+        try
         {
-            response = Response.status(Response.Status.OK).entity(
-                registerDomainInvocationOutcome.toString()).build();
-        }
-        else
-        {
-            response = Response.status(Response.Status.BAD_REQUEST).entity(
-                registerDomainInvocationOutcome.toString()).build();
-        }
+            // create the house (property)
+            final Property houseBeingRegistered = this.houseFactory.create(houseInformation);
+            LOG.debug("new house created");
 
+            houseBeingRegistered.register();
+            LOG.debug("new house registered");
+
+            response = Response.status(Response.Status.OK).entity(HOUSE_REGISTERED_SUCCESSFULLY).build();
+        }
+        catch (final AggregateRootObjectCreationException | DomainEntryPointException exception)
+        {
+            response = Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
+        }
+        
         LOG.trace("exit");
         
         return response;
