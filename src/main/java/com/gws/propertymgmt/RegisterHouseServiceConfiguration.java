@@ -13,7 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Purchase house service configuration.
+ * Register house service configuration.  Unfortunately the framework
+ * requires getters and setters.
  * 
  * @author Jim Fiolek jim.fiolek@grindwise.com
  */
@@ -35,23 +36,44 @@ public final class RegisterHouseServiceConfiguration extends Configuration
         LOG.trace("exit");
     }
     
+    /**
+     * Provide address authentication id.
+     * 
+     * @return authentication ID.
+     */
     @JsonProperty
     public String getAddressAuthenticatorID()
     {
         return this.addressAuthenticatorID;
     }
 
+    /**
+     * Establish the address authentication ID.
+     * 
+     * @param addressAuthenticatorID address authentication ID.
+     */
     @JsonProperty
     public void setAddressAuthenticatorID(final String addressAuthenticatorID)    
     {
         this.addressAuthenticatorID = addressAuthenticatorID;
     }
 
+    /**
+     * Provide the address authentication token.
+     * 
+     * @return address authentication token.
+     */
     @JsonProperty
-    public String getAddressAuthenticatorToken() {
+    public String getAddressAuthenticatorToken()
+    {
         return this.addressAuthenticatorToken;
     }
 
+    /**
+     * Establish the address authentication token.
+     * 
+     * @param addressAuthenticatorToken address authentication token.
+     */
     @JsonProperty
     public void setAddressAuthenticatorToken(final String addressAuthenticatorToken)
     {

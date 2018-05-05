@@ -88,8 +88,7 @@ public final class RegisterHouseResource
     /**
      * Validate constructor invariants.
      * 
-     * @param addressAuthenticator service to authenticate address of property.
-     * @param runtimeProperties properties needed at runtime.
+     * @param houseFactory factory to create house instances.
      */    
     private void validate(final HouseFactory houseFactory)
     {

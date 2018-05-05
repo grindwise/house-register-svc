@@ -77,18 +77,25 @@ jar {
     baseName = "${project.name}-${prjVersion}"
 }
 
+checkstyle {
+    toolVersion "${checkstyleVersion}"
+    configFile file("gw-checkstyle.xml")
+}
+
+checkstyleMain {
+    source ='src/main/java'
+}
+
+checkstyleTest {
+    source =''
+}
+
 tasks.withType(FindBugs) {
     reports {
         xml.enabled false
         html.enabled true
     }
 }
-
-checkstyle {
-   configFile = new File(".", "gw-checkstyle.xml")
-   //checkstyleMain.exclude 'com/grindwise/asset/management/dts/**'
-}
-
 
 tasks.withType(Test) {
     testLogging {
@@ -116,4 +123,12 @@ tasks.withType(Test) {
             }
         }
     }    
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.stylesheet resources.text.fromFile('checkstyle-simple.xsl')
+    }
 }

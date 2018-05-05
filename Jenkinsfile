@@ -43,8 +43,8 @@ pipeline {
                echo "build clean shadowJar"
                sh 'gradle clean shadowJar'
                sh 'gradle test'
-               //sh 'gradle findbugsMain'
-               //sh 'gradle checkstyleMain'
+               sh 'gradle findbugsMain'
+               sh 'gradle checkstyleMain'
             }
         }
 
@@ -66,19 +66,6 @@ pipeline {
     post {
         always {
             slackSend "ended ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-        }
-        success {
-            echo "no downstream build required"
-        }
-        failure {
-            echo 'This will run only if failed'
-        }
-        unstable {
-            echo 'This will run only if the run was marked as unstable'
-        }
-        changed {
-            echo 'This will run only if the state of the Pipeline has changed'
-            echo 'For example, if the Pipeline was previously failing but is now successful'
         }
     }
 }
