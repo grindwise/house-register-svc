@@ -44,7 +44,6 @@ dependencies {
     compile "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
     compile "org.mockito:mockito-all:${mockitoVersion}"
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    //compile "org.jongo:jongo:${jongoVersion}"
     compile "org.mongodb:mongodb-driver:${mongoDriverVersion}"
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
     testCompile "junit:junit:${junitVersion}"
