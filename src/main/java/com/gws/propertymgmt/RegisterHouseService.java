@@ -11,6 +11,8 @@ import com.google.inject.Injector;
 import com.grindwise.addressauthenticator.AddressAuthenticator;
 import com.grindwise.addressauthenticator.AddressAuthenticatorFactory;
 import com.grindwise.addressauthenticator.AddressAuthenticatorModule;
+import com.gws.productionenvy.framework.Persistence;
+import com.gws.productionenvy.framework.PersistenceFactory;
 import com.gws.productionenvy.framework.ProductionEnvyFWModule;
 import com.gws.productionenvy.framework.RuntimeEnvironmentProperties;
 import io.dropwizard.Application;
@@ -55,7 +57,8 @@ public final class RegisterHouseService extends Application<RegisterHouseService
         LOG.trace("entry");
         
         injector = Guice.createInjector(new AddressAuthenticatorModule(),
-                                        new ProductionEnvyFWModule());
+                                        new ProductionEnvyFWModule(),
+                                        new RegisterModule());
 
         // no exit after run - causes embedded jetty server to exit
         new RegisterHouseService().run(args);
@@ -122,8 +125,19 @@ public final class RegisterHouseService extends Application<RegisterHouseService
             registerHouseServiceConfiguration.getAddressAuthenticatorID(),
             registerHouseServiceConfiguration.getAddressAuthenticatorToken());
         
+        final PersistenceFactory persistenceFactory = injector.getInstance(PersistenceFactory.class);
+        final Persistence persistence = persistenceFactory.create(
+            runtimeProperties.getPropertyValue(
+                HouseRuntimeProperties.PERSISTENT_STORE_HOST_ENV_VAR),
+            Integer.parseInt(runtimeProperties.getPropertyValue(
+                HouseRuntimeProperties.PERSISTENT_STORE_PORT_ENV_VAR)),
+            runtimeProperties.getPropertyValue(
+                HouseRuntimeProperties.PERSISTENT_STORE_NAME_ENV_VAR),
+            runtimeProperties.getPropertyValue(
+                HouseRuntimeProperties.PERSISTENT_COLLECTION_NAME_ENV_VAR));
+        
         final HouseFactory propertyFactory =
-            new HouseFactory(addressAuthenticator, runtimeProperties);
+            new HouseFactory(addressAuthenticator, persistence);
         
         final RegisterHouseResource registerHouseResource =
             new RegisterHouseResource(propertyFactory);
