@@ -10,18 +10,10 @@
         <name must-exist="yes">shadowJar</name>
       </task-names>
       <task-args/>
-      <task-jvm-args/>
-    </task>
-    <task>
-      <display-name>acceptanceTest</display-name>
-      <non-blocking>no</non-blocking>
-      <task-names>
-        <name must-exist="no">acceptanceTest</name>
-      </task-names>
-      <task-args>
-        <arg>acceptanceTest</arg>
-      </task-args>
-      <task-jvm-args/>
+      <task-jvm-args>
+        <arg>-DrepoId=myMavenRepo</arg>
+        <arg>-DrepoPassword=1GrindWise</arg>
+      </task-jvm-args>
     </task>
   </common-tasks>
 </gradle-project-properties>

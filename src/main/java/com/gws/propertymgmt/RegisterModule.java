@@ -42,9 +42,9 @@ public final class RegisterModule extends AbstractModule
     {
         LOG.trace("entry");
         
-        install(new FactoryModuleBuilder()
-            .implement(Persistence.class, MongoPersistence.class)
-                .build(PersistenceFactory.class));
+        install(new FactoryModuleBuilder().
+            implement(Persistence.class, MongoPersistence.class).
+                build(PersistenceFactory.class));
         
         LOG.trace("exit");
     }

@@ -20,10 +20,16 @@ apply plugin: 'maven'
 apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
 
 repositories {
     maven {
-        url "http://brepo.grindwise.com:8085/artifactory/grindwise"
+        url myMavenRepoGwsReadUrl
     }
 
     jcenter()
@@ -50,9 +56,63 @@ dependencies {
     testCompile "com.tngtech.jgiven:jgiven-junit:${jgivenVersion}"
 }
 
-compileJava {
-    options.encoding = 'UTF-8'
-    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+sourceSets {
+    solitaryTests {
+        java.srcDir file('src/solitary/java')
+	compileClasspath += main.output
+	runtimeClasspath += main.output
+    }
+    
+    unitTests {
+        java.srcDir file('src/unit/java')
+	compileClasspath += main.output
+	runtimeClasspath += main.output
+    }
+    
+    acceptanceTests {
+        java.srcDir file('src/acceptance/java')
+	compileClasspath += main.output
+	runtimeClasspath += main.output
+    }
+}
+
+configurations {
+    unitTestsCompile.extendsFrom testCompile
+    unitTestsRuntime.extendsFrom testRuntime
+    solitaryTestsCompile.extendsFrom testCompile
+    solitaryTestsRuntime.extendsFrom testRuntime
+    acceptanceTestsCompile.extendsFrom testCompile
+    acceptanceTestsRuntime.extendsFrom testRuntime
+}
+
+task solitaryTests(type: Test) {
+    testClassesDir = sourceSets.solitaryTests.output.classesDir
+    classpath = sourceSets.solitaryTests.runtimeClasspath
+}
+
+task solitaryTestsJar(dependsOn: compileSolitaryTestsJava, type: Jar) {
+    baseName = "${project.name}-sol"
+    from sourceSets.solitaryTests.output.classesDir
+}
+
+task unitTests(type: Test) {
+    testClassesDir = sourceSets.unitTests.output.classesDir
+    classpath = sourceSets.unitTests.runtimeClasspath
+}
+
+task unitTestsJar(dependsOn: compileUnitTestsJava, type: Jar) {
+    baseName = "${project.name}-ut"
+    from sourceSets.unitTests.output.classesDir
+}
+
+task acceptanceTests(type: Test) {
+    testClassesDir = sourceSets.acceptanceTests.output.classesDir
+    classpath = sourceSets.acceptanceTests.runtimeClasspath
+}
+
+task acceptanceTestsJar(dependsOn: compileAcceptanceTestsJava, type: Jar) {
+    baseName = "${project.name}-at"
+    from sourceSets.acceptanceTests.output.classesDir
 }
 
 mainClassName = 'com.gws.propertymgmt.RegisterHouseService'
@@ -74,6 +134,28 @@ jar {
     }
 
     baseName = "${project.name}-${prjVersion}"
+}
+
+publishing {
+    repositories {
+        maven {
+            url myMavenRepoGwsWriteUrl
+            credentials {
+                username System.getProperty("repoId")
+                password System.getProperty("repoPassword")
+            }
+        }
+    }
+   
+    publications {
+        maven(MavenPublication) {
+            groupId prjGroup
+            artifactId prjArtifact
+            version prjVersion
+         
+            artifact("$buildDir/libs/${prjArtifact}-${prjVersion}.jar")
+        }
+    }
 }
 
 checkstyle {

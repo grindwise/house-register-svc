@@ -1,0 +1,30 @@
+image:
+   name: grindwiseinc/ci:1.0  
+   #username: $DOCKER_HUB_USERNAME
+   #password: $DOCKER_HUB_PASSWORD
+   email: $EMAIL
+   ports: "27017:27017"
+pipelines:
+  default:
+    - step:
+        script:
+          # build jar
+          - gradle clean shadowJar
+
+          # solitary tests
+          - gradle solitaryTests
+
+          # unit tests
+          - gradle unitTests
+
+          # acceptance tests
+          - gradle acceptanceTests
+
+          # checkstyle
+          - gradle checkstyleMain
+
+          # findbugs
+          - gradle findbugsMain
+
+          # store binary
+          - gradle publish -DrepoId=$BINARY_REPO_USER -DrepoPassword=$BINARY_REPO_PASS
