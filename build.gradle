@@ -213,3 +213,24 @@ tasks.withType(Checkstyle) {
         html.stylesheet resources.text.fromFile('checkstyle-simple.xsl')
     }
 }
+
+task dockerCopy(type: Copy) {
+
+    dockerCopy.configure {
+       from('etc')
+       into('docker')
+       include('*')
+    }
+
+    dockerCopy.configure {
+       from('build/libs')
+       into('docker')
+       include('*')
+    }
+
+    dockerCopy.configure {
+       from('scripts')
+       into('docker')
+       include('*')
+    }
+}

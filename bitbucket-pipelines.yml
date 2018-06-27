@@ -1,7 +1,7 @@
 image:
    name: grindwiseinc/ci:1.0  
-   #username: $DOCKER_HUB_USERNAME
-   #password: $DOCKER_HUB_PASSWORD
+   username: $DOCKER_HUB_USERNAME
+   password: $DOCKER_HUB_PASSWORD
    email: $EMAIL
    ports: "27017:27017"
 pipelines:
@@ -26,5 +26,12 @@ pipelines:
           # findbugs
           - gradle findbugsMain
 
-          # store binary
-          - gradle publish -DrepoId=$BINARY_REPO_USER -DrepoPassword=$BINARY_REPO_PASS
+          # docker - create image and push
+          - gradle dockerCopy
+          - cd docker
+          - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+          - docker build --force-rm --tag=grindwiseinc/propertymgmt.house.register:$BITBUCKET_COMMIT .
+          - docker push grindwiseinc/propertymgmt.house.register:$BITBUCKET_COMMIT
+options:
+  docker: true
+
