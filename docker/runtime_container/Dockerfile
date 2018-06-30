@@ -1,4 +1,4 @@
-FROM grindwiseinc/bbi:1.0
+FROM grindwiseinc/depbi:1.0
 
 MAINTAINER Jim Fiolek jim.fiolek@grindwise.com
 

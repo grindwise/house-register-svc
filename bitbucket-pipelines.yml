@@ -1,5 +1,5 @@
 image:
-   name: grindwiseinc/ci:1.0  
+   name: grindwiseinc/pipeline:1.0  
    username: $DOCKER_HUB_USERNAME
    password: $DOCKER_HUB_PASSWORD
    email: $EMAIL
@@ -28,7 +28,7 @@ pipelines:
 
           # docker - create image and push
           - gradle dockerCopy
-          - cd docker
+          - cd docker/runtime_container
           - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
           - docker build --force-rm --tag=grindwiseinc/propertymgmt.house.register:$BITBUCKET_COMMIT .
           - docker push grindwiseinc/propertymgmt.house.register:$BITBUCKET_COMMIT

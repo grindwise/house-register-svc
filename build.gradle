@@ -218,19 +218,19 @@ task dockerCopy(type: Copy) {
 
     dockerCopy.configure {
        from('etc')
-       into('docker')
+       into('docker/runtime_container')
        include('*')
     }
 
     dockerCopy.configure {
        from('build/libs')
-       into('docker')
+       into('docker/runtime_container')
        include('*')
     }
 
     dockerCopy.configure {
        from('scripts')
-       into('docker')
+       into('docker/runtime_container')
        include('*')
     }
 }

@@ -1,6 +1,6 @@
 docker build --force-rm --tag=grindwiseinc/propertymgmt.house.register:1.0 .
 
-docker push grindwiseinc/propertymgmt.house.register
+docker push grindwiseinc/propertymgmt.house.register:1.0
 
 docker pull grindwiseinc/propertymgmt.house.register
 
