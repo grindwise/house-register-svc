@@ -51,6 +51,9 @@ dependencies {
     compile "org.mockito:mockito-all:${mockitoVersion}"
     compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
     compile "org.mongodb:mongodb-driver:${mongoDriverVersion}"
+    //compile "net.logstash.logback:logstash-logback-encoder:5.1"
+    //compile "com.wikia:dropwizard-logstash-encoder:${logbackEncodeVersion}"
+    compile group: 'es.urbanoalvarez', name: 'dropwizard-logstash-encoder', version: '2.0.3'
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
     testCompile "junit:junit:${junitVersion}"
     testCompile "com.tngtech.jgiven:jgiven-junit:${jgivenVersion}"

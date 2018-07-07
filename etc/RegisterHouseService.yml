@@ -23,13 +23,22 @@ logging:
     "PojoCodec": DEBUG
     "com.gws": DEBUG
 
-    # Redirects SQL logs to a separate file
-#    org.hibernate.SQL:
-#      level: DEBUG
 
   appenders:
-    - type: console
+#    - type: console
+#      threshold: DEBUG 
+#      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+#      timeZone: UTC
+#      target: stdout
+
+
+    - type: logstash-tcp
       threshold: DEBUG 
       logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
       timeZone: UTC
-      target: stdout
+      host: 172.17.0.2
+      port: 5044
+      fieldNames:
+        message: msg
+        timestamp: log_date
+
