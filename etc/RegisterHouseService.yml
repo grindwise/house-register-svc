@@ -16,29 +16,21 @@ server:
 logging:
 
   # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
-  level: INFO 
+  level: OFF
 
   # Logger-specific levels.
   loggers:
-    "PojoCodec": DEBUG
-    "com.gws": DEBUG
+    "com.gws": INFO
 
 
   appenders:
-#    - type: console
-#      threshold: DEBUG 
-#      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+    - type: file
+      currentLogFilename: /opt/propertymgmt/register-house-service/logs/register.log
+      layout:
+        type: json
+      archive: true
+      archivedLogFilenamePattern: /opt/propertymgmt/register-house-service/logs/register-%d.log
+      archivedFileCount: 5
 #      timeZone: UTC
-#      target: stdout
-
-
-    - type: logstash-tcp
-      threshold: DEBUG 
-      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
-      timeZone: UTC
-      host: 172.17.0.2
-      port: 5044
-      fieldNames:
-        message: msg
-        timestamp: log_date
+#      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
 

@@ -1,0 +1,137 @@
+{
+  "className": "com.gws.propertymgmt.portfoliomgmt.domain.RegisterHouseAcceptanceTest",
+  "name": "Register House Acceptance",
+  "scenarios": [
+    {
+      "className": "com.gws.propertymgmt.portfoliomgmt.domain.RegisterHouseAcceptanceTest",
+      "testMethodName": "scenario1RegisterHouseWithValidAddress",
+      "description": "Scenario1 register house with valid address",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "casesAsTable": false,
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a new house needs to be manage",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a new house needs to be manage"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 79448866
+            },
+            {
+              "name": "the address is a valid united states address",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the address is a valid united states address"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 498934796
+            },
+            {
+              "name": "the house information has been saved",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the house information has been saved"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 12430473
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "success": true,
+          "durationInNanos": 901477505
+        }
+      ],
+      "durationInNanos": 901477505,
+      "executionStatus": "SUCCESS"
+    },
+    {
+      "className": "com.gws.propertymgmt.portfoliomgmt.domain.RegisterHouseAcceptanceTest",
+      "testMethodName": "scenario2RegisterHouseWithInvalidAddress",
+      "description": "Scenario2 register house with invalid address",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "casesAsTable": false,
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a new house needs to be manage",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a new house needs to be manage"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1169635
+            },
+            {
+              "name": "the address is an invalid united states address",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the address is an invalid united states address"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1196119
+            },
+            {
+              "name": "the house information has not been saved",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "the house information has not been saved"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 8761471
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "success": true,
+          "durationInNanos": 30911026
+        }
+      ],
+      "durationInNanos": 30911026,
+      "executionStatus": "SUCCESS"
+    }
+  ],
+  "tagMap": {}
+}

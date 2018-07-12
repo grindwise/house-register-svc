@@ -12,6 +12,8 @@ auth_token=$3
 
 exec su -s /bin/sh -c mongod mongodb &
 
+exec su -s /bin/sh -c "filebeat -e -c /filebeat/filebeat.yml" &
+
 echo "service startup: $service_script"
 
 . $service_script $auth_id $auth_token 
