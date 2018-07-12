@@ -1,5 +1,4 @@
-image: grindwiseinc/pipeline:1.0
-
+image:
    name: grindwiseinc/pipeline:1.0  
    username: $DOCKER_HUB_USERNAME
    password: $DOCKER_HUB_PASSWORD
