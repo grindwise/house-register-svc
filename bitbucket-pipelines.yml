@@ -9,6 +9,9 @@ pipelines:
   default:
     - step:
         script:
+          # start mongod
+          - mongod --fork --logpath /var/log/mongod.log
+
           # build jar
           - gradle clean shadowJar
 
