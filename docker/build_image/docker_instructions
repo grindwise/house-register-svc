@@ -1,0 +1,9 @@
+Grind Wise Inc.
+
+docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0 .
+
+docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0
+
+docker run -P --name propertymgmt.portfoliomgmt.house.register.pipeline grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0
+
+DEBUG example: docker run -it --volume=/Users/myUserName/code/localDebugRepo:/localDebugRepo --workdir="/localDebugRepo" --memory=4g --entrypoint=/bin/bash python:2.7

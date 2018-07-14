@@ -30,16 +30,4 @@ public interface Property extends AggregateRootObject
      *     successfully registered.
      */
     DomainInvocationOutcome register() throws DomainEntryPointException;
-    
-    /**
-     * unregister a house which is no longer being managed.
-     * 
-     * @return DomainInvocationOutcome outcome of invocation.
-     * 
-     * @throws com.gws.productionenvy.framework.DomainEntryPointException
-     *     when the invocation of domain behavior results in any outcome
-     *     other than the expected path, in this case the property is
-     *     successfully registered.
-     */
-    DomainInvocationOutcome unregister() throws DomainEntryPointException;
 }

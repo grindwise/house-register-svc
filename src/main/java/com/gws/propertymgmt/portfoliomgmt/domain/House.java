@@ -17,9 +17,7 @@ import com.gws.productionenvy.framework.ChildObjectStateRepresentation;
 import com.gws.productionenvy.framework.ChildObjectStateRepresentationImpl;
 import com.gws.productionenvy.framework.DomainEntryPointException;
 import com.gws.productionenvy.framework.DomainInvocationOutcome;
-import com.gws.productionenvy.framework.Format;
 import com.gws.productionenvy.framework.ObjectStateRepresentation;
-import com.gws.productionenvy.framework.OutputException;
 import com.gws.productionenvy.framework.Persistence;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -153,43 +151,6 @@ final class House implements Property
         
         LOG.trace("exit");
         
-        return domainInvocationOutcome;
-    }
-
-    @Override
-    public DomainInvocationOutcome unregister() throws DomainEntryPointException
-    {
-        LOG.trace("entry");
-        
-        final DomainInvocationOutcome domainInvocationOutcome;
-        final DateTime dateTime = new DateTime();
-
-        try
-        {
-            // write state
-            final ObjectStateRepresentation houseObjectState = this.objectState();
-            
-            this.persistence.store(houseObjectState, "unregister", dateTime, Boolean.TRUE);
-            LOG.info("house state persisted");
-
-            // fire significate domain event
-            final Format houseUnregisteredEventFormat = new HouseUnregisteredEventFormat();
-            final HouseUnregisteredEvent houseUnregisteredEvent =
-                (HouseUnregisteredEvent) houseObjectState.outputAs(houseUnregisteredEventFormat);
-            
-            houseUnregisteredEvent.publish();
-
-            domainInvocationOutcome =
-                new DomainInvocationOutcome(
-                    DomainInvocationOutcome.InvocationOutcome.SUCCESS, "House was successfully unregistered.");
-        }
-        catch (final AggregateRootPersistenceException | OutputException exception)
-        {
-            throw new DomainEntryPointException(exception);
-        }
-        
-        LOG.trace("exit");
-
         return domainInvocationOutcome;
     }
 

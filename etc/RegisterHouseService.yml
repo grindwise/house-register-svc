@@ -2,7 +2,7 @@ addressAuthenticatorID:
 addressAuthenticatorToken:
 
 server:
-  applicationContextPath: /propertymgmt
+  applicationContextPath: /propertymgmt/portfoliomgmt
   rootPath: /
 
   applicationConnectors:
@@ -25,11 +25,11 @@ logging:
 
   appenders:
     - type: file
-      currentLogFilename: /opt/propertymgmt/register-house-service/logs/register.log
+      currentLogFilename: /opt/propertymgmt/portfoliomgmt/register-house-service/logs/register.log
       layout:
         type: json
       archive: true
-      archivedLogFilenamePattern: /opt/propertymgmt/register-house-service/logs/register-%d.log
+      archivedLogFilenamePattern: /opt/propertymgmt/portfoliomgmt/register-house-service/logs/register-%d.log
       archivedFileCount: 5
 #      timeZone: UTC
 #      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"

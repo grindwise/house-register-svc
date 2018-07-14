@@ -1,5 +1,5 @@
 image:
-   name: grindwiseinc/pipeline:1.0  
+   name: grindwiseinc/propertymgmt.portfoliomgmt.house.register:1.0  
    username: $DOCKER_HUB_USERNAME
    password: $DOCKER_HUB_PASSWORD
    email: $EMAIL
