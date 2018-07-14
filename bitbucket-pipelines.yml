@@ -34,8 +34,8 @@ pipelines:
           - gradle dockerCopy
           - cd docker/runtime_container
           - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
-          - docker build --force-rm --tag=grindwiseinc/propertymgmt.house.register:$BITBUCKET_COMMIT .
-          - docker push grindwiseinc/propertymgmt.house.register:$BITBUCKET_COMMIT
+          - docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
+          - docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
 
 options:
   docker: true
