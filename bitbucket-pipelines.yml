@@ -32,7 +32,7 @@ pipelines:
 
           # docker - create image and push
           - gradle dockerCopy
-          - cd docker/runtime_container
+          - cd docker/runtime_image
           - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
           - docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
           - docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
