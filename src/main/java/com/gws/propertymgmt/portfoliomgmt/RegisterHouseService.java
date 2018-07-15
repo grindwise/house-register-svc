@@ -101,8 +101,6 @@ public final class RegisterHouseService extends Application<RegisterHouseService
         
         LOG.info(SERVICE_IS_READY);
         
-        LOG.error("oh boy this is not good");
-
         LOG.trace("exit");
     }
     

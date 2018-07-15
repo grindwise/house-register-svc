@@ -10,5 +10,5 @@ docker run -P --name propertymgmt.portfoliomgmt.house.register \
 -e property_store_password="" -e property_store_host=localhost \
 -e property_store_port=27017 -e version=1.0.0 \
 grindwiseinc/propertymgmt.portfoliomgmt.house.register:1.0 \
-"/opt/propertymgmt/register-house-service/bin/register-house-service.sh" \ 
+"/opt/propertymgmt/portfoliomgmt/register-house-service/bin/register-house-service.sh" \ 
 "some auth id" "some auth token"

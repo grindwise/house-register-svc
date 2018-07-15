@@ -40,8 +40,6 @@ repositories {
 dependencies {
     compile "com.gws.addressauthenticator:gws.addressauthenticator:${aaVersion}"
     compile "com.gws.productionenvy.framework:gws.productionenvy.framework:${productionEnvyVersion}"
-    //compile "com.gws.propertymgmt:propertymgmt:${propertyMgmtVersion}"
-    //compile "com.gws.propertymgmt:propertymgmt.house:${propertyMgmtHouseVersion}"
     compile "org.slf4j:slf4j-api:${slf4Version}"
     compile "io.dropwizard:dropwizard-core:${dropWizardVersion}"
     compile "io.dropwizard:dropwizard-views-mustache:${dropWizardVersion}"
@@ -116,7 +114,7 @@ task acceptanceTestsJar(dependsOn: compileAcceptanceTestsJava, type: Jar) {
     from sourceSets.acceptanceTests.output.classesDir
 }
 
-mainClassName = 'com.gws.propertymgmt.RegisterHouseService'
+mainClassName = 'com.gws.propertymgmt.portfoliomgmt.RegisterHouseService'
 
 shadowJar {
 

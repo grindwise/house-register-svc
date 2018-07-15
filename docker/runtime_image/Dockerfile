@@ -33,7 +33,7 @@ RUN mkdir -p /data/db
 
 COPY environment /opt/propertymgmt/portfoliomgmt/register-house-service/etc/
 COPY RegisterHouseService.yml /opt/propertymgmt/portfoliomgmt/register-house-service/etc/
-COPY propertymgmt.house.register-*.jar /opt/propertymgmt/portfoliomgmt/register-house-service/lib/
+COPY propertymgmt.portfoliomgmt.house.register-*.jar /opt/propertymgmt/portfoliomgmt/register-house-service/lib/
 COPY register-house-service.sh /opt/propertymgmt/portfoliomgmt/register-house-service/bin/
 COPY service-start.sh /service-start.sh
 
