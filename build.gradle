@@ -240,3 +240,8 @@ task dockerCopy(type: Copy) {
        include('*')
     }
 }
+
+task downloadUberJar() {
+    println("we can download uber jar here")
+}
+
