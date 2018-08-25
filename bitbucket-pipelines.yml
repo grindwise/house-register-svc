@@ -1,13 +1,15 @@
-image:
-   name: grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0  
-   username: $DOCKER_HUB_USERNAME
-   password: $DOCKER_HUB_PASSWORD
-   email: $EMAIL
-   ports: "27017:27017"
-
 pipelines:
   default:
     - step:
+        name: commit stage
+
+        image:
+            name: grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0  
+            username: $DOCKER_HUB_USERNAME
+            password: $DOCKER_HUB_PASSWORD
+            email: $EMAIL
+            ports: "27017:27017"
+
         script:
           # start mongod
           - mongod --fork --logpath /var/log/mongod.log
@@ -21,21 +23,37 @@ pipelines:
           # unit tests
           - gradle unitTests
 
-          # acceptance tests
-          - gradle acceptanceTests
-
           # checkstyle
           - gradle checkstyleMain
 
           # findbugs
           - gradle findbugsMain
 
-          # docker - create image and push
-          - gradle dockerCopy
-          - cd docker/runtime_image
-          - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
-          - docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
-          - docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
+          # store binary artifact (jar)
+          - gradle -DrepoId=$BINARY_REPO_USER -DrepoPassword=$BINARY_REPO_PASS clean shadowJar publish
+
+    - step:
+          name: acceptance stage
+
+          #image:
+          #    name: grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0  
+          #    username: $DOCKER_HUB_USERNAME
+          #    password: $DOCKER_HUB_PASSWORD
+          #    email: $EMAIL
+          #    ports: "27017:27017"
+
+          deployment: test
+
+          script:
+            # acceptance tests
+            #- gradle acceptanceTests
+
+            # docker - create image and push
+            #- gradle dockerCopy
+            #- cd docker/runtime_image
+            #- docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            #- docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
+            #- docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
 
 options:
   docker: true
