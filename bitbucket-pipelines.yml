@@ -29,8 +29,11 @@ pipelines:
           # findbugs
           - gradle findbugsMain
 
+          artifacts:
+          - build/libs/**
+
           # store binary artifact (jar)
-          - gradle -DrepoId=$BINARY_REPO_USER -DrepoPassword=$BINARY_REPO_PASS publish
+          #- gradle -DrepoId=$BINARY_REPO_USER -DrepoPassword=$BINARY_REPO_PASS publish
 
     - step:
           name: acceptance stage
@@ -38,11 +41,8 @@ pipelines:
           deployment: test
 
           script:
-            # download uber jar
-            - gradle downloadUberJar
-
             # acceptance tests
-            #- gradle acceptanceTests
+            - gradle acceptanceTests
 
             # docker - create image and push
             #- gradle dockerCopy
