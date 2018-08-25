@@ -11,9 +11,6 @@ pipelines:
         name: commit stage
 
         script:
-          # start mongod
-          - mongod --fork --logpath /var/log/mongod.log
-
           # build jar
           - gradle clean shadowJar
 
@@ -30,26 +27,36 @@ pipelines:
           - gradle findbugsMain
 
         artifacts:
+          # copy artifacts for following steps
           - build/libs/**
-
-          # store binary artifact (jar)
-          #- gradle -DrepoId=$BINARY_REPO_USER -DrepoPassword=$BINARY_REPO_PASS publish
 
     - step:
           name: acceptance stage
 
-          deployment: test
-
           script:
+            # start mongod
+            - mongod --fork --logpath /var/log/mongod.log
+
             # acceptance tests
             - gradle acceptanceTests
 
+    - step:
+          name: create container image
             # docker - create image and push
-            #- gradle dockerCopy
-            #- cd docker/runtime_image
-            #- docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
-            #- docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
-            #- docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
+            - gradle dockerCopy
+            - cd docker/runtime_image
+            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            - docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
+            - docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
+
+    - step:
+          name: deploy to rte
+
+          deployment: test
+
+          script:
+            # deploy service
+            - gradle deployService
 
 options:
   docker: true

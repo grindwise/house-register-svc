@@ -240,3 +240,7 @@ task dockerCopy(type: Copy) {
        include('*')
     }
 }
+
+task deployService() {
+    println("deploy service start")
+}
