@@ -29,7 +29,7 @@ pipelines:
           # findbugs
           - gradle findbugsMain
 
-          artifacts:
+        artifacts:
           - build/libs/**
 
           # store binary artifact (jar)
