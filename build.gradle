@@ -10,8 +10,14 @@ buildscript {
 
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+        classpath 'org.hidetake:gradle-ssh-plugin:2.9.0'
     }
 }
+
+plugins {
+  id 'org.hidetake.ssh' version '2.9.0'
+}
+
 
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
@@ -21,6 +27,7 @@ apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
+apply plugin: 'org.hidetake.ssh'
 
 compileJava {
     options.encoding = 'UTF-8'
