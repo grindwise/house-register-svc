@@ -42,6 +42,8 @@ pipelines:
 
     - step:
           name: create container image
+
+          script:
             # docker - create image and push
             - gradle dockerCopy
             - cd docker/runtime_image
