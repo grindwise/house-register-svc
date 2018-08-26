@@ -14,11 +14,6 @@ buildscript {
     }
 }
 
-plugins {
-  id 'org.hidetake.ssh' version '2.9.0'
-}
-
-
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'application'
@@ -119,6 +114,13 @@ task acceptanceTests(type: Test) {
 task acceptanceTestsJar(dependsOn: compileAcceptanceTestsJava, type: Jar) {
     baseName = "${project.name}-at"
     from sourceSets.acceptanceTests.output.classesDir
+}
+
+task printProps {
+    doLast {
+        println deployer_user
+        println deployer_password
+    }
 }
 
 mainClassName = 'com.gws.propertymgmt.portfoliomgmt.RegisterHouseService'
@@ -241,6 +243,34 @@ task dockerCopy(type: Copy) {
     }
 }
 
-task deployService() {
-    println("deploy service start")
+// ssh deployment
+ssh.settings {
+  dryRun = project.hasProperty('dryRun')
+}
+
+remotes {
+  staging {
+    host = 'propertyhoncho.hopto.org'
+    port = 5767
+    user = deployer_user
+    password = deployer_password
+  }
+}
+
+task deploy() {
+  doLast {
+    ssh.run {
+      session(remotes.staging) {
+        // Execute a command
+        def result = execute 'sudo service apache2 status'
+
+        // Also Groovy methods or properties are available in a session closure
+        println result
+      }
+    }
+  }
+}
+
+task smoke() {
+    println("smoke testing")
 }

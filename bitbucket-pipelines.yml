@@ -41,7 +41,7 @@ pipelines:
             - gradle acceptanceTests
 
     - step:
-          name: create container image
+          name: create image and push
 
           script:
             # docker - create image and push
@@ -52,13 +52,20 @@ pipelines:
             - docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
 
     - step:
-          name: deploy to rte
+          name: deploy to staging
 
-          deployment: test
+          deployment: staging
 
           script:
             # deploy service
-            - gradle deployService
+            - gradle deploy -Pdeployer_user=$DEPLOYER_USER -Pdeployer_password=$DEPLOYER_PASS
+
+    - step:
+          name: smoke test staging
+
+          script:
+            # execute smoke tests
+            - gradle smoke
 
 options:
   docker: true

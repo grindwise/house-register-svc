@@ -1,0 +1,4 @@
+# for dry run ./gradle -PdryRun -i reload
+
+ssh.runtime.logback level: 'DEBUG'
+
