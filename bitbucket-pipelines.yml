@@ -44,9 +44,8 @@ pipelines:
           name: scan for security vulnerabilities
 
           script:
-              # download
-              - curl -sSL https://download.sourceclear.com/ci.sh | bash
-                #- curl -sSL https://www.sourceclear.com/install | bash
+            # download
+            - curl -sSL https://download.sourceclear.com/ci.sh | sh
 
     - step:
           name: create image and push
