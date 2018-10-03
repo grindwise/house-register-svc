@@ -15,16 +15,16 @@ pipelines:
           - gradle clean shadowJar
 
           # solitary tests
-          - gradle solitaryTests
+          #- gradle solitaryTests
 
           # unit tests
-          - gradle unitTests
+          #- gradle unitTests
 
           # checkstyle
-          - gradle checkstyleMain
+          #- gradle checkstyleMain
 
           # findbugs
-          - gradle findbugsMain
+          #- gradle findbugsMain
 
         artifacts:
           # copy artifacts for following steps
@@ -38,14 +38,14 @@ pipelines:
             - mongod --fork --logpath /var/log/mongod.log
 
             # acceptance tests
-            - gradle acceptanceTests
+            #- gradle acceptanceTests
 
     - step:
           name: scan for security vulnerabilities
 
           script:
             # download & scan
-            - curl -sSL https://download.sourceclear.com/ci.sh | sh
+            - /usr/bin/curl -sSL https://download.sourceclear.com/ci.sh | sh
 
     - step:
           name: create image and push
