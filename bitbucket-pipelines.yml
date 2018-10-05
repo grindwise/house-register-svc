@@ -39,13 +39,14 @@ pipelines:
 
             # acceptance tests
             #- gradle acceptanceTests
+            #
 
     - step:
           name: scan for security vulnerabilities
 
           script:
             # download & scan
-            - /usr/lib/curl -sSL https://download.sourceclear.com/ci.sh | sh
+            - curl -sSL https://download.sourceclear.com/ci.sh | sh
 
     - step:
           name: create image and push
