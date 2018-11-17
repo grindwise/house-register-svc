@@ -46,7 +46,7 @@ pipelines:
 
           script:
             # download & scan
-            - /usr/lib/curl -ssl https://download.sourceclear.com/ci.sh | sh
+            - /usr/bin/curl -ssl https://download.sourceclear.com/ci.sh | sh
 
     - step:
           name: create image and push
