@@ -280,6 +280,6 @@ task smoke() {
     println("smoke testing")
 }
 
-srcclr << {
+srcclr {
   apiToken = security_scan_api_token 
 }

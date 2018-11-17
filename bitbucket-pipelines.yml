@@ -47,7 +47,7 @@ pipelines:
 
           script:
             # download & scan
-            - gradle srcclr -Psecurity_scan_api_token=$SECURITY_SCAN_API_TOKEN
+            - gradle -Psecurity_scan_api_token=$SECURITY_SCAN_API_TOKEN srcclr
 
             #- /usr/bin/curl -ssl https://download.sourceclear.com/ci.sh | sh
 
