@@ -14,6 +14,11 @@ buildscript {
     }
 }
 
+
+plugins {
+  id "com.srcclr.gradle" version "3.1.0"
+}
+
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'application'
@@ -273,4 +278,9 @@ task deploy() {
 
 task smoke() {
     println("smoke testing")
+    println(security_scan_api_token)
+}
+
+srcclr {
+  apiToken = security_scan_api_token 
 }
