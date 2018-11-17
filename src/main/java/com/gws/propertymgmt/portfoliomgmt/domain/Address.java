@@ -15,7 +15,7 @@ import com.grindwise.addressauthenticator.AddressAuthenticationException;
 interface Address
 {
     /**
-     * Checks the address for authenticity.
+     * Checks the address for authenticity using 3rd party check.
      * 
      * @return true if it can be verified otherwise false
      * 
