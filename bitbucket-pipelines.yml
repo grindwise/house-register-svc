@@ -4,7 +4,6 @@ image:
   password: $DOCKER_HUB_PASSWORD
   email: $EMAIL
   ports: "27017:27017"
-  security_scan_api_token: $SECURITY_SCAN_API_TOKEN
 
 pipelines:
   default:
