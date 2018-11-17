@@ -278,7 +278,6 @@ task deploy() {
 
 task smoke() {
     println("smoke testing")
-    println(security_scan_api_token)
 }
 
 srcclr {
