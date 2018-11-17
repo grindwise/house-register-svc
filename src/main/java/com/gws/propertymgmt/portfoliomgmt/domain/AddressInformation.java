@@ -60,6 +60,7 @@ public final class AddressInformation implements Serializable
      */
     public AddressInformation()
     {
+        System.out.println("tmp");
     }
     
     @Override

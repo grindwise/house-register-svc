@@ -47,9 +47,7 @@ pipelines:
           script:
             # download & scan
             - echo $SRCCLR_API_TOKEN
-            - gradle srcclr
-
-            #- /usr/bin/curl -ssl https://download.sourceclear.com/ci.sh | sh
+            - gradle srcclr builds/libs --loud
 
     - step:
           name: create image and push
