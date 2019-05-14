@@ -15,16 +15,16 @@ pipelines:
           - gradle clean shadowJar
 
           # solitary tests
-          #- gradle solitaryTests
+          - gradle solitaryTests
 
           # unit tests
-          #- gradle unitTests
+          - gradle unitTests
 
           # checkstyle
-          #- gradle checkstyleMain
+          - gradle checkstyleMain
 
           # findbugs
-          #- gradle findbugsMain
+          - gradle findbugsMain
 
         artifacts:
           # copy artifacts for following steps
@@ -38,16 +38,14 @@ pipelines:
             - mongod --fork --logpath /var/log/mongod.log
 
             # acceptance tests
-            #- gradle acceptanceTests
-            #
+            - gradle acceptanceTests
 
     - step:
           name: scan for security vulnerabilities
 
           script:
             # download & scan
-            - echo $SRCCLR_API_TOKEN
-            - gradle srcclr builds/libs --loud
+            #- gradle srcclr
 
     - step:
           name: create image and push
@@ -55,10 +53,10 @@ pipelines:
           script:
             # docker - create image and push
             - gradle dockerCopy
-            #- cd docker/runtime_image
-            #- docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
-            #- docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
-            #- docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
+            - cd docker/runtime_image
+            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            - docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
+            - docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
 
     - step:
           name: deploy to staging
