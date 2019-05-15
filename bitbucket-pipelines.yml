@@ -45,7 +45,7 @@ pipelines:
 
           script:
             # download & scan
-            #- gradle srcclr
+            - gradle srcclr
 
     - step:
           name: create image and push
