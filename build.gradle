@@ -33,20 +33,20 @@ repositories {
 }
 
 dependencies {
-    implementation "com.gws.addressauthenticator:gws.addressauthenticator:${aaVersion}"
-    implementation "com.gws.productionenvy.framework:gws.productionenvy.framework:${productionEnvyVersion}"
-    implementation "org.slf4j:slf4j-api:${slf4Version}"
-    implementation "io.dropwizard:dropwizard-core:${dropWizardVersion}"
-    implementation "io.dropwizard:dropwizard-views-mustache:${dropWizardVersion}"
-    implementation "io.dropwizard:dropwizard-assets:${dropWizardVersion}"
-    implementation "io.dropwizard:dropwizard-json-logging:${dropWizardVersion}"
-    implementation "com.google.inject:guice:${guiceVersion}"
-    implementation "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
-    implementation "org.mockito:mockito-all:${mockitoVersion}"
-    implementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    implementation "org.mongodb:mongodb-driver:${mongoDriverVersion}"
-    implementation 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
-    implementation 'org.hidetake:gradle-ssh-plugin:2.9.0'
+    compile "com.gws.addressauthenticator:gws.addressauthenticator:${aaVersion}"
+    compile "com.gws.productionenvy.framework:gws.productionenvy.framework:${productionEnvyVersion}"
+    compile "org.slf4j:slf4j-api:${slf4Version}"
+    compile "io.dropwizard:dropwizard-core:${dropWizardVersion}"
+    compile "io.dropwizard:dropwizard-views-mustache:${dropWizardVersion}"
+    compile "io.dropwizard:dropwizard-assets:${dropWizardVersion}"
+    compile "io.dropwizard:dropwizard-json-logging:${dropWizardVersion}"
+    compile "com.google.inject:guice:${guiceVersion}"
+    compile "com.google.inject.extensions:guice-assistedinject:${guiceVersion}"
+    compile "org.mockito:mockito-all:${mockitoVersion}"
+    compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    compile "org.mongodb:mongodb-driver:${mongoDriverVersion}"
+    compile 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    compile 'org.hidetake:gradle-ssh-plugin:2.9.0'
 
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyleVersion}"
     testCompile "junit:junit:${junitVersion}"

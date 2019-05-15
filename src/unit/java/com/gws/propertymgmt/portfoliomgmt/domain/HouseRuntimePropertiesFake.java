@@ -6,10 +6,10 @@
 
 package com.gws.propertymgmt.portfoliomgmt.domain;
 
+import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gws.productionenvy.framework.RuntimeEnvironmentProperties;
 import java.util.HashMap;
 import java.util.Map;
-import jersey.repackaged.com.google.common.base.Preconditions;
 
 /**
  * Establishes the process properties for the register House service.
