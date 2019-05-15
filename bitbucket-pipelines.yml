@@ -23,8 +23,8 @@ pipelines:
           # checkstyle
           - gradle checkstyleMain
 
-          # findbugs
-          - gradle findbugsMain
+          # spotbugs
+          - gradle spotbugsMain
 
         artifacts:
           # copy artifacts for following steps
