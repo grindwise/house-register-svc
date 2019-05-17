@@ -26,7 +26,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 79448866
+              "durationInNanos": 135196944
             },
             {
               "name": "the address is a valid united states address",
@@ -40,7 +40,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 498934796
+              "durationInNanos": 367585691
             },
             {
               "name": "the house information has been saved",
@@ -54,17 +54,17 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 12430473
+              "durationInNanos": 14397875
             }
           ],
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
           "success": true,
-          "durationInNanos": 901477505
+          "durationInNanos": 1117702016
         }
       ],
-      "durationInNanos": 901477505,
+      "durationInNanos": 1117702016,
       "executionStatus": "SUCCESS"
     },
     {
@@ -91,7 +91,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1169635
+              "durationInNanos": 2304916
             },
             {
               "name": "the address is an invalid united states address",
@@ -105,7 +105,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1196119
+              "durationInNanos": 1260371
             },
             {
               "name": "the house information has not been saved",
@@ -119,17 +119,17 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 8761471
+              "durationInNanos": 8466478
             }
           ],
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
           "success": true,
-          "durationInNanos": 30911026
+          "durationInNanos": 100051061
         }
       ],
-      "durationInNanos": 30911026,
+      "durationInNanos": 100051061,
       "executionStatus": "SUCCESS"
     }
   ],
