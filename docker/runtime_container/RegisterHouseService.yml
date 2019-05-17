@@ -1,0 +1,36 @@
+addressAuthenticatorID:
+addressAuthenticatorToken:
+
+server:
+  applicationContextPath: /api/propertymgmt/portfoliomgmt
+  rootPath: /
+
+  applicationConnectors:
+    - type: http
+      port: 7085
+  adminConnectors:
+    - type: http
+      port: 7086
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: OFF
+
+  # Logger-specific levels.
+  loggers:
+    "com.gws": INFO
+
+
+  appenders:
+    - type: file
+      currentLogFilename: /opt/propertymgmt/portfoliomgmt/register-house-service/logs/register.log
+      layout:
+        type: json
+      archive: true
+      archivedLogFilenamePattern: /opt/propertymgmt/portfoliomgmt/register-house-service/logs/register-%d.log
+      archivedFileCount: 5
+#      timeZone: UTC
+#      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+
