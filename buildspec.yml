@@ -1,11 +1,5 @@
 version: 0.2
 
-run-as: gws_admin
-
-env:
-    variables:
-        version: "1.0.0"
-
 phases:
   install:
     runtime-versions:
@@ -23,6 +17,7 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+
 artifacts:
   files:
     - build/libs/propertymgmt.portfoliomgmt.house.register-1.0.0.jar 
