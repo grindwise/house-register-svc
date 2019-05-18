@@ -4,16 +4,16 @@ phases:
 
   pre_build:
     commands:
-      - echo Nothing to do in the pre_build phase...
+      - echo nothing to do in the pre_build phase...
 
   build:
     commands:
-      - echo Build started on `date`
+      - echo build started on `date`
       - gradle clean shadowJar 
 
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo build completed on `date`
 
 artifacts:
   files:
