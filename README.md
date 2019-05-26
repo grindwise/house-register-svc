@@ -6,4 +6,4 @@ jim.fiolek@grindwise.com
 
 Grind Wise Inc.
 
-Implementation: Java.
+Implementation: Java, MongoDB, Gradle.
