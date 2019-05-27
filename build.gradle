@@ -7,7 +7,7 @@ plugins {
   id 'java'
   id "com.srcclr.gradle" version "3.1.0"
   id 'checkstyle'
-  id "com.github.spotbugs" version "1.7.1"
+  id "com.github.spotbugs" version "2.0.0"
   id 'maven'
   id 'maven-publish'
   id 'groovy'
@@ -126,8 +126,6 @@ task acceptanceTestsJar(dependsOn: compileAcceptanceTestsJava, type: Jar) {
     from sourceSets.acceptanceTests.output.classesDirs
 }
 
-//mainClassName = 'com.gws.propertymgmt.portfoliomgmt.RegisterHouseService'
-
 shadowJar {
 
     project.tasks.assemble.dependsOn project.tasks.shadowJar
@@ -183,14 +181,6 @@ checkstyleTest {
     source =''
 }
 
-/*
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-
 tasks.withType(Test) {
     testLogging {
         // set options for log level LIFECYCLE
@@ -218,7 +208,6 @@ tasks.withType(Test) {
         }
     }    
 }
-*/
 
 tasks.withType(Checkstyle) {
     reports {
@@ -289,4 +278,6 @@ srcclr {
 */
 
 tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  reports.xml.enabled = false
+  reports.html.enabled = true
 }

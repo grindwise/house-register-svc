@@ -17,10 +17,10 @@ phases:
       - echo build completed on `date`
 
       # solitary tests
-      - gradle solitaryTests
+      - gradle solitaryTests -i
 
       # unit tests
-      - gradle unitTests
+      - gradle unitTests -i
 
       # checkstyle
       - gradle checkstyleMain
