@@ -10,10 +10,23 @@ phases:
     commands:
       - echo build started on `date`
       - gradle clean shadowJar 
+      - echo build completed on `date`
 
   post_build:
     commands:
       - echo build completed on `date`
+
+      # solitary tests
+      - gradle solitaryTests
+
+      # unit tests
+      - gradle unitTests
+
+      # checkstyle
+      - gradle checkstyleMain
+
+      # spotbugs
+      - gradle spotbugsMain
 
 artifacts:
   files:
