@@ -8,4 +8,4 @@ Grind Wise Inc.
 
 Implementation: Java, MongoDB, Gradle.
 
-More information goes here...
+Interesting: Persistence is handled by the aggregate root.
