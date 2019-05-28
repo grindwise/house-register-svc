@@ -10,3 +10,4 @@ Grind Wise Inc.
 
 Implementation: Java, MongoDB, Gradle.
 
+More info.
