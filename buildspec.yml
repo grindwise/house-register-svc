@@ -31,4 +31,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  name: house-register-service-$AWS_REGION
+  name: house-register-service-$(AWS_REGION)
