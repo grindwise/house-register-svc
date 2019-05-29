@@ -4,12 +4,8 @@ This service allows a house to be registered and managed.
 
 The responsibility of this service is to validate the address, store, and fire event.
 
-jim.fiolek@grindwise.com
-
 Grind Wise Inc.
 
+jim.fiolek@grindwise.com
+
 Implementation: Java, MongoDB, Gradle.
-
-More info.
-
-Even more info.
