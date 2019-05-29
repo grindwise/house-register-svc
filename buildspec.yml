@@ -32,4 +32,5 @@ artifacts:
   files:
     - 'etc/*'
     - 'scripts/*'
-  name: house-register-service-$(AWS_REGION)
+    - 'build/lib/*.jar'
+  name: house_register_service_$(AWS_REGION)
