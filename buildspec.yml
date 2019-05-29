@@ -30,4 +30,6 @@ phases:
 
 artifacts:
   files:
+    - '**/*'
+  name: house-register-service-$(date +%Y-%m-%d)
     - build/libs/propertymgmt.portfoliomgmt.house.register-1.0.0.jar 
