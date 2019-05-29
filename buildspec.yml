@@ -33,5 +33,5 @@ artifacts:
     - 'etc/*'
     - 'scripts/*'
     - 'build/libs/*.jar'
-  name: house_register_service
+  name: house_register_service.zip
 
