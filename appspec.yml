@@ -1,5 +1,12 @@
 version: 0.0
 os: linux
 files:
-  - source: /
-  - destination: /var/tmp
+  - source: etc/RegisterHouseService.yml 
+  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/etc/
+  - source: etc/environment
+  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/etc/
+  - source: scripts/register-house-service.sh /opt/propertymgmt/portfoliomgmt/register-house-service/bin/
+hooks:
+  ApplicationStart:
+    - location: /opt/propertymgmt/portfoliomgmt/register-house-service/bin/register-house-service.sh
+    - runas: root

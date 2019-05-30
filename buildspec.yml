@@ -30,6 +30,7 @@ phases:
 
 artifacts:
   files:
+    - 'appspec.yml'
     - 'etc/*'
     - 'scripts/*'
     - 'build/libs/*.jar'
