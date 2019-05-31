@@ -2,13 +2,13 @@ version: 0.0
 os: linux
 files:
   - source: etc/RegisterHouseService.yml 
-  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/etc/
+  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/etc/RegisterHouseService.yml
   - source: etc/environment
-  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/etc/
+  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/etc/environment
   - source: scripts/register-house-service.sh 
-  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/bin/
+  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/bin/register-house-service.sh
   - source: build/libs/*.jar
-  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/lib/
+  - destination: /opt/propertymgmt/portfoliomgmt/register-house-service/lib/*.jar
   
 hooks:
   ApplicationStart:
