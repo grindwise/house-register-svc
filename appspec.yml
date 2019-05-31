@@ -13,4 +13,4 @@ files:
 hooks:
   ApplicationStart:
     - location: /opt/propertymgmt/portfoliomgmt/register-house-service/bin/register-house-service.sh
-    - runas: root
+      runas: root
