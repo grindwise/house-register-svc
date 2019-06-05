@@ -7,7 +7,7 @@ files:
     destination: /opt/propertymgmt/portfoliomgmt/register-house-service/etc/
   - source: scripts/register-house-service.sh 
     destination: /opt/propertymgmt/portfoliomgmt/register-house-service/bin/
-  - source: build/libs/*.jar
+  - source: build/libs/propertymgmt.portfoliomgmt.house.register-1.0.0.jar
     destination: /opt/propertymgmt/portfoliomgmt/register-house-service/lib/
   
 hooks:

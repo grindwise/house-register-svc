@@ -5,7 +5,6 @@
 
 plugins {
   id 'java'
-  id "com.srcclr.gradle" version "3.1.0"
   id 'checkstyle'
   id "com.github.spotbugs" version "2.0.0"
   id 'maven'
@@ -238,44 +237,42 @@ task dockerCopy(type: Copy) {
     }
 }
 
-// ssh deployment
-/*
-ssh.settings {
-  dryRun = project.hasProperty('dryRun')
-}
+task packageDistribution(type: Zip, dependsOn: shadowJar) {
+    archiveFileName = "${project.name}-${prjVersion}.zip"
 
-remotes {
-  staging {
-    host = 'propertyhoncho.hopto.org'
-    port = 5767
-    user = deployer_user
-    password = deployer_password
-  }
-}
+    destinationDirectory = file("$buildDir/distribution")
 
-task deploy() {
-  doLast {
-    ssh.run {
-      session(remotes.staging) {
-        // Execute a command
-        def result = execute 'sudo service apache2 status'
-
-        // Also Groovy methods or properties are available in a session closure
-        println result
-      }
+    from("$buildDir/libs/${project.name}-${prjVersion}.jar") {
+        into 'lib'
     }
-  }
+
+    from("scripts/register-house-service.sh") {
+        into 'bin'
+    }
+
+    from("etc") {
+        into 'etc'
+    }
+}
+
+task deploy(type:Exec) {
+
+    println "access id: ${deployer_access_id}"
+    println "secret key: ${deployer_secret_key}"
+
+    def moveScript="/automated-deploy/move-artifact-to-s3-bucket.sh"
+    def distributionArtifact="${buildDir}/distribution/${project.name}-${prjVersion}.zip"
+
+    executable "bash"
+
+    args "-c", "sh ${moveScript} ${distributionArtifact} ${deployer_access_id} ${deployer_secret_key}"
 }
 
 task smoke() {
-    println("smoke testing")
+    doLast {
+        println("smoke testing")
+    }
 }
-
-srcclr {
-  apiToken="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZWFtSWQiOiIxMjg2NyIsInNjb3BlIjpbXSwiaWQiOjMxMjA4LCJleHAiOjE1NDI0NjA4MjEsImF1dGhvcml0aWVzIjoiQUdFTlQiLCJvcmdJZCI6IjI0MjQiLCJqdGkiOiJjZDliZDE0Ny01NTMxLTRiMjYtOTYwZi05MGI1N2RjZjAyMDkiLCJjbGllbnRfaWQiOiIifQ.J88jaVRHk7EYl66jEOmZ1bUzLpun5rj99KA7f2Dcmz_B3PJyOwJCj6jO8UMxvPFTK3RV16WMWTt-9wRCGikuqplD6f0cVVqD8OERkubUaoVpeq6_omqS3az6exsEOHbeVcHEjbTlrHFhV-smYizu7Kzctkl24H0pTRd9ZVkfW64"
-}
-
-*/
 
 tasks.withType(com.github.spotbugs.SpotBugsTask) {
   reports.xml.enabled = false

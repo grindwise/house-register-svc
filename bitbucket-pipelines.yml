@@ -1,5 +1,7 @@
 image:
-  name: grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0  
+  name: grindwiseinc/propertymgmt.portfoliomgmt.house.register.pipeline:1.0
+  deployer_access_key_id_and_value: $DEPLOYER_ACCESS_KEY_ID_AND_VALUE
+  deployer_secret_access_key_and_value: $DEPLOYER_SECRET_ACCESS_KEY_AND_VALUE
   username: $DOCKER_HUB_USERNAME
   password: $DOCKER_HUB_PASSWORD
   email: $EMAIL
@@ -11,20 +13,23 @@ pipelines:
         name: commit stage
 
         script:
+          - echo "access id: ${deployer_access_key_id_and_value}"
+          - echo "secret key: ${deployer_secret_access_key_and_value}"
+
           # build jar
           - gradle clean shadowJar
 
           # solitary tests
-          - gradle solitaryTests
+          #- gradle solitaryTests
 
           # unit tests
-          - gradle unitTests
+          #- gradle unitTests
 
           # checkstyle
-          - gradle checkstyleMain
+          #- gradle checkstyleMain
 
           # spotbugs
-          - gradle spotbugsMain
+          #- gradle spotbugsMain
 
         artifacts:
           # copy artifacts for following steps
@@ -35,28 +40,43 @@ pipelines:
 
           script:
             # start mongod
-            - mongod --fork --logpath /var/log/mongod.log
+            #- mongod --fork --logpath /var/log/mongod.log
 
             # acceptance tests
-            - gradle acceptanceTests
+            #- gradle acceptanceTests
 
     - step:
-          name: scan for security vulnerabilities
+          name: software composition analysis - scan for 3rd party security vulnerabilities
 
           script:
             # download & scan
-            - gradle srcclr
+            #- gradle srcclr
+            - echo "sca"
+
+    - step:
+          name: static application security testing - scan for homegrown security vulnerabilities
+          
+          script:
+          # scan our code
+          - echo "scanning our code"
 
     - step:
           name: create image and push
 
           script:
+            - echo "create image and push"
             # docker - create image and push
-            - gradle dockerCopy
-            - cd docker/runtime_image
-            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
-            - docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
-            - docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
+            #- gradle dockerCopy
+            #- cd docker/runtime_image
+            #- docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            #- docker build --force-rm --tag=grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT .
+            #- docker push grindwiseinc/propertymgmt.portfoliomgmt.house.register:$BITBUCKET_COMMIT
+
+    - step:
+          name: spin up staging infrastructure
+
+          script:
+            - echo "spinning up resources"
 
     - step:
           name: deploy to staging
@@ -64,8 +84,10 @@ pipelines:
           deployment: staging
 
           script:
-            # deploy service
-            - gradle deploy -Pdeployer_user=$DEPLOYER_USER -Pdeployer_password=$DEPLOYER_PASS
+            - gradle packageDistribution
+
+            - gradle deploy -Pdeployer_access_id=$deployer_access_key_id_and_value \
+                            -Pdeployer_secret_key=$deployer_secret_access_key_and_value
 
     - step:
           name: smoke test staging

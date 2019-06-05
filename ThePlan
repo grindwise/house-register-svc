@@ -1,0 +1,28 @@
+Engineer => commit => bitbucket.repo
+
+bitbucket.repo => bitbucket.pipeline
+
+	build/package jar
+	solitary tests
+	unit tests
+	checkstyle
+	spotbugs
+
+	acceptance tests
+
+	SCA
+
+	SAST
+
+	create runtime container image
+	register container image
+
+	** For now deploy to AWS ECS, add Terraform later.
+
+	Terraform:
+		create runtime environment
+		start runtime environment
+	
+	deploy container image
+
+	additional scrutiny (after runtime environment 
